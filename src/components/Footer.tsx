@@ -1,73 +1,91 @@
-'use client';
-
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { MapPin, Mail, Phone, Clock } from 'lucide-react';
+
+const QUICK_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/academics', label: 'Academics' },
+  { href: '/admissions', label: 'Admissions' },
+  { href: '/contact', label: 'Contact' },
+];
+
+const CONTACT = [
+  { icon: MapPin, text: 'Plot 12, Gwarinpa, Abuja, Nigeria' },
+  { icon: Mail, text: 'admissions@crestfieldacademy.edu.ng', href: 'mailto:admissions@crestfieldacademy.edu.ng' },
+  { icon: Phone, text: '+234 800 123 4567', href: 'tel:+2348001234567' },
+  { icon: Clock, text: 'Mon–Fri 7:30am–4pm' },
+];
 
 export default function Footer() {
-  const [year, setYear] = useState<number | null>(null);
-
-  useEffect(() => {
-    setYear(new Date().getFullYear());
-  }, []);
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-navy text-white pt-12 pb-8 border-t border-slate-700">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+    <footer className="border-t border-navy-800 bg-navy text-white">
+      <div className="mx-auto max-w-7xl px-6 pt-12 pb-8">
+        <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-4">
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gold flex items-center justify-center text-navy font-bold">
+            <div className="mb-4 flex items-center gap-2">
+              <span
+                aria-hidden="true"
+                className="flex h-8 w-8 items-center justify-center rounded-lg bg-gold font-bold text-navy"
+              >
                 CA
-              </div>
-              <span className="font-bold text-xl tracking-tight">Crestfield Academy</span>
+              </span>
+              <span className="font-poppins text-xl font-bold tracking-tight">Crestfield Academy</span>
             </div>
-            <p className="text-slate-400 text-sm leading-relaxed">
+            <p className="text-sm leading-relaxed text-slate-300">
               Crestfield Academy is a leading secondary school in Abuja, Nigeria,
               committed to academic excellence and character formation from JSS1 to SS3.
             </p>
           </div>
+
           <div>
-            <h4 className="text-sm font-semibold text-gold uppercase tracking-wider mb-6">Quick Links</h4>
-            <ul className="space-y-3 text-sm text-slate-400">
-              <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
-              <li><Link href="/about" className="hover:text-white transition-colors">About</Link></li>
-              <li><Link href="/academics" className="hover:text-white transition-colors">Academics</Link></li>
-              <li><Link href="/admissions" className="hover:text-white transition-colors">Admissions</Link></li>
-              <li><Link href="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+            <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-gold">Quick Links</h2>
+            <ul className="space-y-3 text-sm text-slate-300">
+              {QUICK_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className="transition-colors hover:text-white">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-sm font-semibold text-gold uppercase tracking-wider mb-6">Contact</h4>
-            <ul className="space-y-3 text-sm text-slate-400">
-              <li className="flex items-start gap-3">
-                <span className="text-gold">📍</span>
-                Plot 12, Gwarinpa, Abuja, Nigeria
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-gold">✉️</span>
-                admissions@crestfieldacademy.edu.ng
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-gold">📞</span>
-                +234 800 123 4567
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-gold">🕒</span>
-                Mon–Fri 7:30am–4pm
-              </li>
+            <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-gold">Contact</h2>
+            <ul className="space-y-3 text-sm text-slate-300">
+              {CONTACT.map((item) => (
+                <li key={item.text} className="flex items-start gap-3">
+                  <item.icon size={16} className="mt-0.5 shrink-0 text-gold" aria-hidden="true" />
+                  {item.href ? (
+                    <a href={item.href} className="transition-colors hover:text-white">
+                      {item.text}
+                    </a>
+                  ) : (
+                    <span>{item.text}</span>
+                  )}
+                </li>
+              ))}
             </ul>
           </div>
+
           <div>
-            <h4 className="text-sm font-semibold text-gold uppercase tracking-wider mb-6">Follow Us</h4>
-            <div className="flex gap-4">
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Twitter</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Instagram</a>
-              <a href="#" className="text-slate-400 hover:text-white transition-colors">Facebook</a>
-            </div>
+            <h2 className="mb-6 text-sm font-semibold uppercase tracking-wider text-gold">Enquiries</h2>
+            <p className="mb-4 text-sm leading-relaxed text-slate-300">
+              Speak to the admissions team about applications, fees, or a visit to the campus.
+            </p>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-lg bg-gold px-5 py-2.5 text-sm font-bold text-navy transition-colors hover:bg-gold/90"
+            >
+              Contact Admissions
+            </Link>
           </div>
         </div>
-        <div className="border-t border-slate-700 pt-8 text-center text-xs text-slate-500">
-          &copy; {year || 2025} Crestfield Academy. All rights reserved.
+
+        <div className="border-t border-white/10 pt-8 text-center text-xs text-slate-400">
+          &copy; {year} Crestfield Academy. All rights reserved.
         </div>
       </div>
     </footer>
