@@ -1,6 +1,15 @@
+'use client';
+
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function Footer() {
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="bg-navy text-white pt-12 pb-8 border-t border-slate-700">
       <div className="max-w-7xl mx-auto px-6">
@@ -58,7 +67,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-slate-700 pt-8 text-center text-xs text-slate-500">
-          &copy; {new Date().getFullYear()} Crestfield Academy. All rights reserved.
+          &copy; {year || 2025} Crestfield Academy. All rights reserved.
         </div>
       </div>
     </footer>

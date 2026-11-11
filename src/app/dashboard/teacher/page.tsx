@@ -65,7 +65,7 @@ export default function TeacherDashboard() {
               {myClasses.map((cls) => (
                 <div key={cls} className="flex items-center justify-between p-3 rounded-lg border border-slate-200 bg-slate-50">
                   <span className="font-medium text-navy">{cls}</span>
-                  <span className="text-xs text-slate-500">{STudents.filter((s) => s.class === cls).length} students</span>
+                  <span className="text-xs text-slate-500">{STUDENTS.filter((s) => s.class === cls).length} students</span>
                 </div>
               ))}
             </div>
