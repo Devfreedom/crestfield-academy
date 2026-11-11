@@ -5,7 +5,7 @@ import { Bell, LogOut, Menu, ShieldCheck } from 'lucide-react';
 import Sidebar from './Sidebar';
 import Modal from './Modal';
 import { useCurrentUser } from '@/lib/useAuth';
-import { logout, type Role } from '@/lib/auth';
+import { logout, requireRole, type Role } from '@/lib/auth';
 import { ANNOUNCEMENTS } from '@/lib/data';
 import { formatDate } from '@/lib/utils';
 
@@ -26,15 +26,16 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
 
-  const authorised = ready && user !== null && allowedRoles.includes(user.role);
-
-  // Redirect to login when the visitor is signed in with the wrong role.
+  // Every dashboard portal calls requireRole() on load. A visitor signed in
+  // with the wrong role is sent to /login?error=access-denied.
+  const roleKey = allowedRoles.join(',');
   useEffect(() => {
     if (!ready) return;
-    if (!user || !allowedRoles.includes(user.role)) {
-      window.location.href = '/login?error=access-denied';
-    }
-  }, [ready, user, allowedRoles]);
+    requireRole(allowedRoles);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, roleKey]);
+
+  const authorised = ready && user !== null && allowedRoles.includes(user.role);
 
   // Lock background scroll while the mobile drawer is open.
   useEffect(() => {
@@ -82,9 +83,7 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
             >
               <Menu size={20} />
             </button>
-            <h1 className="font-poppins text-lg font-bold text-navy">
-              Crestfield Portal
-            </h1>
+            <h1 className="font-poppins text-lg font-bold text-navy">Crestfield Portal</h1>
           </div>
 
           <div className="flex items-center gap-2 sm:gap-4">
@@ -94,7 +93,7 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
               aria-label={`Notifications (${relevantAnnouncements.length} unread)`}
               className="relative rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy"
             >
-              <Bell size={20} />
+              <Bell size={20} aria-hidden="true" />
               {relevantAnnouncements.length > 0 && (
                 <span
                   aria-hidden="true"
@@ -120,7 +119,7 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
                 aria-label="Sign out"
                 className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy md:hidden"
               >
-                <LogOut size={20} />
+                <LogOut size={20} aria-hidden="true" />
               </button>
             </div>
           </div>

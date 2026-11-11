@@ -1,34 +1,78 @@
-import Link from 'next/link';
-import { BookOpen, GraduationCap, ShieldCheck, Award, Clock } from 'lucide-react';
+import { BookOpen, GraduationCap, ShieldCheck, Award } from 'lucide-react';
 
 const JSS_SUBJECTS = [
-  'English Language', 'Mathematics', 'Basic Science', 'Basic Technology',
-  'Social Studies', 'Civic Education', 'Agricultural Science', 'Physical & Health Education',
-  'Christian Religious Studies', 'Islamic Religious Studies', 'French', 'Computer Studies',
+  'English Language',
+  'Mathematics',
+  'Basic Science',
+  'Basic Technology',
+  'Social Studies',
+  'Civic Education',
+  'Agricultural Science',
+  'Physical & Health Education',
+  'Christian Religious Studies',
+  'Islamic Religious Studies',
+  'French',
+  'Computer Studies',
 ];
 
 const SSS_STREAMS = [
   {
     name: 'Science',
-    subjects: ['Mathematics', 'English Language', 'Physics', 'Chemistry', 'Biology', 'Further Mathematics', 'Agricultural Science'],
+    subjects: [
+      'Mathematics',
+      'English Language',
+      'Physics',
+      'Chemistry',
+      'Biology',
+      'Further Mathematics',
+      'Agricultural Science',
+    ],
     description: 'For students targeting medicine, engineering, and pure sciences.',
   },
   {
     name: 'Arts',
-    subjects: ['English Language', 'Literature-in-English', 'Government', 'History', 'CRS/IRS', 'French', 'Economics'],
+    subjects: [
+      'English Language',
+      'Literature-in-English',
+      'Government',
+      'History',
+      'CRS/IRS',
+      'French',
+      'Economics',
+    ],
     description: 'For students targeting law, arts, humanities, and social sciences.',
   },
   {
     name: 'Commercial',
-    subjects: ['English Language', 'Mathematics', 'Economics', 'Accounting', 'Commerce', 'Business Studies', 'Computer Studies'],
+    subjects: [
+      'English Language',
+      'Mathematics',
+      'Economics',
+      'Accounting',
+      'Commerce',
+      'Business Studies',
+      'Computer Studies',
+    ],
     description: 'For students targeting business, accounting, and entrepreneurship.',
   },
 ];
 
 const EXAMS = [
-  { name: 'WAEC', fullName: 'West African Examinations Council', focus: 'SS3 final examinations' },
-  { name: 'NECO', fullName: 'National Examinations Council', focus: 'National secondary school certificate' },
-  { name: 'IGCSE', fullName: 'International General Certificate of Secondary Education', focus: 'International curriculum option' },
+  {
+    name: 'WAEC',
+    fullName: 'West African Examinations Council',
+    focus: 'SS3 final examinations',
+  },
+  {
+    name: 'NECO',
+    fullName: 'National Examinations Council',
+    focus: 'National secondary school certificate',
+  },
+  {
+    name: 'IGCSE',
+    fullName: 'International General Certificate of Secondary Education',
+    focus: 'International curriculum option',
+  },
 ];
 
 const TIMETABLE = [
@@ -41,54 +85,69 @@ const TIMETABLE = [
 
 export default function Academics() {
   return (
-    <div className="flex flex-col flex-1">
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-gold/20 text-gold text-sm font-semibold border border-gold/30">
+    <div className="flex flex-1 flex-col">
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 text-center">
+            <span className="inline-block rounded-full border border-gold/30 bg-gold/20 px-4 py-1.5 text-sm font-semibold text-gold">
               Academics
             </span>
-            <h1 className="font-poppins text-4xl font-bold text-navy mt-4 mb-6">Academic Excellence</h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <h1 className="mt-4 mb-6 font-poppins text-4xl font-bold text-navy">Academic Excellence</h1>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600">
               From JSS1 to SS3, Crestfield Academy offers a comprehensive British-Nigerian curriculum
               with Science, Arts, and Commercial streams. Our students consistently achieve outstanding
               results in WAEC, NECO, and IGCSE examinations.
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8 mb-16">
-            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-              <BookOpen className="w-8 h-8 text-gold mb-4" />
-              <h3 className="font-poppins text-lg font-bold text-navy mb-2">Junior Secondary (JSS1–JSS3)</h3>
-              <p className="text-sm text-slate-600 mb-4">Foundational years with broad subject exposure.</p>
-              <ul className="text-xs text-slate-500 space-y-1">
-                {JSS_SUBJECTS.slice(0, 6).map((s) => (
-                  <li key={s} className="flex items-center gap-2">
-                    <span className="text-gold">✓</span> {s}
+          <div className="mb-16 grid gap-8 lg:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <BookOpen className="mb-4 h-8 w-8 text-gold" aria-hidden="true" />
+              <h2 className="mb-2 font-poppins text-lg font-bold text-navy">
+                Junior Secondary (JSS1&ndash;JSS3)
+              </h2>
+              <p className="mb-4 text-sm text-slate-600">Foundational years with broad subject exposure.</p>
+              <ul className="space-y-1 text-xs text-slate-500">
+                {JSS_SUBJECTS.slice(0, 6).map((subject) => (
+                  <li key={subject} className="flex items-center gap-2">
+                    <span aria-hidden="true" className="text-gold">
+                      &#10003;
+                    </span>
+                    {subject}
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-              <GraduationCap className="w-8 h-8 text-gold mb-4" />
-              <h3 className="font-poppins text-lg font-bold text-navy mb-2">Senior Secondary (SS1–SS3)</h3>
-              <p className="text-sm text-slate-600 mb-4">Specialized streams for career pathways.</p>
-              <ul className="text-xs text-slate-500 space-y-1">
-                {SSS_STREAMS.map((s) => (
-                  <li key={s.name} className="flex items-center gap-2 mb-1">
-                    <span className="text-gold">✓</span> {s.name} Stream
+
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <GraduationCap className="mb-4 h-8 w-8 text-gold" aria-hidden="true" />
+              <h2 className="mb-2 font-poppins text-lg font-bold text-navy">
+                Senior Secondary (SS1&ndash;SS3)
+              </h2>
+              <p className="mb-4 text-sm text-slate-600">Specialized streams for career pathways.</p>
+              <ul className="space-y-1 text-xs text-slate-500">
+                {SSS_STREAMS.map((stream) => (
+                  <li key={stream.name} className="mb-1 flex items-center gap-2">
+                    <span aria-hidden="true" className="text-gold">
+                      &#10003;
+                    </span>
+                    {stream.name} Stream
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-              <Award className="w-8 h-8 text-gold mb-4" />
-              <h3 className="font-poppins text-lg font-bold text-navy mb-2">External Examinations</h3>
-              <p className="text-sm text-slate-600 mb-4">WAEC, NECO, and IGCSE preparation.</p>
-              <ul className="text-xs text-slate-500 space-y-1">
-                {EXAMS.map((e) => (
-                  <li key={e.name} className="flex items-center gap-2">
-                    <span className="text-gold">✓</span> {e.name}
+
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <Award className="mb-4 h-8 w-8 text-gold" aria-hidden="true" />
+              <h2 className="mb-2 font-poppins text-lg font-bold text-navy">External Examinations</h2>
+              <p className="mb-4 text-sm text-slate-600">WAEC, NECO, and IGCSE preparation.</p>
+              <ul className="space-y-1 text-xs text-slate-500">
+                {EXAMS.map((exam) => (
+                  <li key={exam.name} className="flex items-center gap-2">
+                    <span aria-hidden="true" className="text-gold">
+                      &#10003;
+                    </span>
+                    {exam.name}
                   </li>
                 ))}
               </ul>
@@ -96,40 +155,49 @@ export default function Academics() {
           </div>
 
           <div className="mb-16">
-            <h2 className="font-poppins text-2xl font-bold text-navy mb-6">Senior Secondary Streams</h2>
-            <div className="grid md:grid-cols-3 gap-6">
+            <h2 className="mb-6 font-poppins text-2xl font-bold text-navy">Senior Secondary Streams</h2>
+            <div className="grid gap-6 md:grid-cols-3">
               {SSS_STREAMS.map((stream) => (
-                <div key={stream.name} className="bg-white rounded-xl border border-slate-200 p-6 hover:shadow-md transition-shadow">
-                  <h3 className="font-poppins text-xl font-bold text-navy mb-2">{stream.name} Stream</h3>
-                  <p className="text-sm text-slate-600 mb-4">{stream.description}</p>
-                  <p className="text-xs font-semibold text-navy/70 mb-3">Core Subjects:</p>
-                  <div className="flex flex-wrap gap-2">
-                    {stream.subjects.map((s) => (
-                      <span key={s} className="px-2.5 py-1 rounded bg-navy/10 text-navy text-xs font-medium border border-navy/20">
-                        {s}
-                      </span>
+                <article
+                  key={stream.name}
+                  className="rounded-xl border border-slate-200 bg-white p-6 transition-shadow hover:shadow-md"
+                >
+                  <h3 className="mb-2 font-poppins text-xl font-bold text-navy">{stream.name} Stream</h3>
+                  <p className="mb-4 text-sm text-slate-600">{stream.description}</p>
+                  <p className="mb-3 text-xs font-semibold text-navy/70">Core Subjects:</p>
+                  <ul className="flex flex-wrap gap-2">
+                    {stream.subjects.map((subject) => (
+                      <li
+                        key={subject}
+                        className="rounded border border-navy/20 bg-navy/10 px-2.5 py-1 text-xs font-medium text-navy"
+                      >
+                        {subject}
+                      </li>
                     ))}
-                  </div>
-                </div>
+                  </ul>
+                </article>
               ))}
             </div>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-12">
-            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-              <h2 className="font-poppins text-xl font-bold text-navy mb-6">Weekly Timetable Preview (SS2)</h2>
+          <div className="grid gap-12 lg:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="mb-6 font-poppins text-xl font-bold text-navy">
+                Weekly Timetable Preview (SS2)
+              </h2>
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-sm">
+                  <caption className="sr-only">Weekly timetable preview for SS2</caption>
                   <thead>
                     <tr className="border-b border-slate-200">
-                      <th className="px-4 py-3 text-slate-500 font-semibold">Day</th>
-                      <th className="px-4 py-3 text-slate-500 font-semibold">Subjects</th>
+                      <th scope="col" className="px-4 py-3 font-semibold text-slate-500">Day</th>
+                      <th scope="col" className="px-4 py-3 font-semibold text-slate-500">Subjects</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
                     {TIMETABLE.map((day) => (
-                      <tr key={day.day} className="hover:bg-slate-50 transition-colors">
-                        <td className="px-4 py-3 font-medium text-navy">{day.day}</td>
+                      <tr key={day.day} className="transition-colors hover:bg-slate-50">
+                        <th scope="row" className="px-4 py-3 font-medium text-navy">{day.day}</th>
                         <td className="px-4 py-3 text-slate-600">{day.subjects.join(', ')}</td>
                       </tr>
                     ))}
@@ -137,20 +205,24 @@ export default function Academics() {
                 </table>
               </div>
             </div>
-            <div className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-              <h2 className="font-poppins text-xl font-bold text-navy mb-6">Examination Bodies</h2>
-              <div className="space-y-4">
+
+            <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+              <h2 className="mb-6 font-poppins text-xl font-bold text-navy">Examination Bodies</h2>
+              <ul className="space-y-4">
                 {EXAMS.map((exam) => (
-                  <div key={exam.name} className="flex items-center gap-4 p-3 rounded-lg bg-slate-50 border border-slate-100">
-                    <ShieldCheck className="w-5 h-5 text-gold" />
-                    <div>
+                  <li
+                    key={exam.name}
+                    className="flex items-center gap-4 rounded-lg border border-slate-100 bg-slate-50 p-3"
+                  >
+                    <ShieldCheck className="h-5 w-5 shrink-0 text-gold" aria-hidden="true" />
+                    <div className="min-w-0">
                       <p className="font-medium text-navy">{exam.name}</p>
                       <p className="text-xs text-slate-500">{exam.fullName}</p>
                     </div>
-                    <span className="text-xs text-slate-400 ml-auto">{exam.focus}</span>
-                  </div>
+                    <span className="ml-auto shrink-0 text-xs text-slate-400">{exam.focus}</span>
+                  </li>
                 ))}
-              </div>
+              </ul>
             </div>
           </div>
         </div>

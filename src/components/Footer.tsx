@@ -1,5 +1,11 @@
+'use client';
+
 import Link from 'next/link';
 import { MapPin, Mail, Phone, Clock } from 'lucide-react';
+
+type FooterProps = {
+  year: number;
+};
 
 const QUICK_LINKS = [
   { href: '/', label: 'Home' },
@@ -11,16 +17,18 @@ const QUICK_LINKS = [
 
 const CONTACT = [
   { icon: MapPin, text: 'Plot 12, Gwarinpa, Abuja, Nigeria' },
-  { icon: Mail, text: 'admissions@crestfieldacademy.edu.ng', href: 'mailto:admissions@crestfieldacademy.edu.ng' },
+  {
+    icon: Mail,
+    text: 'admissions@crestfieldacademy.edu.ng',
+    href: 'mailto:admissions@crestfieldacademy.edu.ng',
+  },
   { icon: Phone, text: '+234 800 123 4567', href: 'tel:+2348001234567' },
   { icon: Clock, text: 'Mon–Fri 7:30am–4pm' },
 ];
 
-export default function Footer() {
-  const year = new Date().getFullYear();
-
+export default function Footer({ year }: FooterProps) {
   return (
-    <footer className="border-t border-navy-800 bg-navy text-white">
+    <footer className="border-t border-white/10 bg-navy text-white">
       <div className="mx-auto max-w-7xl px-6 pt-12 pb-8">
         <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-4">
           <div>

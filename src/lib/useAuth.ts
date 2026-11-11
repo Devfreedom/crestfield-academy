@@ -1,30 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 import type { User } from '@/types';
-import { getCurrentUser } from '@/lib/auth';
+import { getCurrentUser, subscribeToAuth } from '@/lib/auth';
 
 type CurrentUser = {
   user: User | null;
-  /** False during SSR and the first client render, before localStorage is read. */
+  /** False during server rendering and hydration, before the store is read. */
   ready: boolean;
 };
 
+const SERVER_SNAPSHOT: CurrentUser = { user: null, ready: false };
+
+let clientSnapshot: CurrentUser = SERVER_SNAPSHOT;
+
 /**
- * Reads the logged-in user from localStorage without touching it during
- * server rendering, so pages can be prerendered and React never sees a
+ * Reads the signed-in user without touching localStorage during server
+ * rendering, so pages stay statically prerenderable and React never sees a
  * hydration mismatch.
  */
 export function useCurrentUser(): CurrentUser {
-  const [state, setState] = useState<CurrentUser>({ user: null, ready: false });
-
-  useEffect(() => {
-    setState({ user: getCurrentUser(), ready: true });
-
-    const onStorage = () => setState({ user: getCurrentUser(), ready: true });
-    window.addEventListener('storage', onStorage);
-    return () => window.removeEventListener('storage', onStorage);
-  }, []);
-
-  return state;
+  return useSyncExternalStore(
+    subscribeToAuth,
+    () => {
+      const user = getCurrentUser();
+      if (!clientSnapshot.ready || clientSnapshot.user !== user) {
+        clientSnapshot = { user, ready: true };
+      }
+      return clientSnapshot;
+    },
+    () => SERVER_SNAPSHOT,
+  );
 }

@@ -104,6 +104,7 @@ export default function StudentsSection() {
               label: 'Filter by class',
               value: classFilter,
               onChange: setClassFilter,
+              matches: (student, value) => student.class === value,
               options: classOptions.map((level) => ({
                 value: level,
                 label: level === 'all' ? 'All classes' : level,
@@ -121,10 +122,6 @@ export default function StudentsSection() {
             </button>
           )}
         />
-        <p className="mt-4 text-sm text-slate-500">
-          Showing {classFilter === 'all' ? 'all classes' : classFilter} &middot; {students.length} students on
-          the roll.
-        </p>
       </SectionCard>
 
       <Modal

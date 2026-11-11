@@ -1,192 +1,232 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowRight, Calendar, Phone, Mail, MapPin, CreditCard, CheckCircle } from 'lucide-react';
+import { ArrowRight, Phone, Mail, MapPin, CheckCircle } from 'lucide-react';
 import { formatCurrency } from '@/lib/utils';
 
 const STEPS = [
-  { number: 1, title: 'Apply', description: 'Submit the online application form with child and parent details.' },
-  { number: 2, title: 'Entrance Exam', description: 'Child sits for an entrance examination in English and Mathematics.' },
-  { number: 3, title: 'Interview', description: 'Parent and child interview with the admissions team.' },
-  { number: 4, title: 'Offer', description: 'Receive admission offer and complete registration formalities.' },
+  {
+    number: 1,
+    title: 'Apply',
+    description: 'Submit the online application form with child and parent details.',
+  },
+  {
+    number: 2,
+    title: 'Entrance Exam',
+    description: 'Child sits for an entrance examination in English and Mathematics.',
+  },
+  {
+    number: 3,
+    title: 'Interview',
+    description: 'Parent and child interview with the admissions team.',
+  },
+  {
+    number: 4,
+    title: 'Offer',
+    description: 'Receive admission offer and complete registration formalities.',
+  },
 ];
 
 const FEES = [
-  { level: 'JSS Day', day: '₦850,000', boarding: '₦1,450,000', term: 'per term' },
-  { level: 'JSS Boarding', day: '—', boarding: '₦1,450,000', term: 'per term' },
-  { level: 'SSS Day', day: '₦950,000', boarding: '₦1,600,000', term: 'per term' },
-  { level: 'SSS Boarding', day: '—', boarding: '₦1,600,000', term: 'per term' },
+  { level: 'Junior Secondary', day: 850000, boarding: 1450000 },
+  { level: 'Senior Secondary', day: 950000, boarding: 1600000 },
 ];
 
-export default function Admissions() {
-  const [step, setStep] = useState(1);
-  const [submitted, setSubmitted] = useState(false);
-  const [formData, setFormData] = useState({
-    childName: '',
-    currentClass: '',
-    applyingTo: '',
-    parentName: '',
-    phone: '',
-    email: '',
-  });
+const CURRENT_CLASSES = ['Primary 6', 'JSS1', 'JSS2', 'JSS3', 'SS1', 'SS2'];
+const APPLYING_TO = ['JSS1', 'JSS2', 'JSS3', 'SS1', 'SS2', 'SS3'];
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+const INITIAL_FORM = {
+  childName: '',
+  currentClass: '',
+  applyingTo: '',
+  parentName: '',
+  phone: '',
+  email: '',
+};
+
+export default function Admissions() {
+  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState(INITIAL_FORM);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setSubmitted(true);
   };
 
   return (
-    <div className="flex flex-col flex-1">
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-16">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-gold/20 text-gold text-sm font-semibold border border-gold/30">
+    <div className="flex flex-1 flex-col">
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-16 text-center">
+            <span className="inline-block rounded-full border border-gold/30 bg-gold/20 px-4 py-1.5 text-sm font-semibold text-gold">
               Admissions
             </span>
-            <h1 className="font-poppins text-4xl font-bold text-navy mt-4 mb-6">Admissions</h1>
-            <p className="text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            <h1 className="mt-4 mb-6 font-poppins text-4xl font-bold text-navy">Admissions</h1>
+            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600">
               Join Crestfield Academy for the 2025/2026 session. We are now accepting applications
               for JSS1 to SS3. Follow our simple 4-step admission process below.
             </p>
           </div>
 
-          <div className="mb-16">
-            <div className="flex justify-between mb-8">
-              {STEPS.map((s) => (
-                <div key={s.title} className="text-center flex-1 relative">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center mx-auto mb-3 font-bold ${
-                    step >= s.number ? 'bg-navy text-white' : 'bg-slate-200 text-slate-400 border border-slate-300'
-                  }`}>
-                    {s.number}
-                  </div>
-                  {step > s.number && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-4 h-4 bg-gold rounded-full" />
-                  )}
-                  <h4 className={`font-semibold ${step >= s.number ? 'text-navy' : 'text-slate-400'}`}>
-                    {s.title}
-                  </h4>
-                  <p className="text-xs text-slate-500">{s.description}</p>
+          <ol className="mb-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {STEPS.map((step) => (
+              <li key={step.title} className="relative text-center">
+                <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-navy font-bold text-white">
+                  {step.number}
                 </div>
-              ))}
-            </div>
-          </div>
+                <h2 className="font-semibold text-navy">{step.title}</h2>
+                <p className="mt-1 text-xs text-slate-500">{step.description}</p>
+              </li>
+            ))}
+          </ol>
 
           {!submitted ? (
-            <div className="max-w-2xl mx-auto bg-white rounded-xl border border-slate-200 p-8 shadow-lg">
-              <h2 className="font-poppins text-2xl font-bold text-navy mb-6">Application Form</h2>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <div className="mx-auto max-w-2xl rounded-xl border border-slate-200 bg-white p-8 shadow-lg">
+              <h2 className="mb-6 font-poppins text-2xl font-bold text-navy">Application Form</h2>
+              <form onSubmit={handleSubmit} aria-labelledby="application-form-heading" className="space-y-6">
+                <h3 id="application-form-heading" className="sr-only">
+                  Application details
+                </h3>
+
+                <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Child's Full Name</label>
+                    <label htmlFor="child-name" className="mb-2 block text-sm font-medium text-slate-700">
+                      Child&rsquo;s Full Name
+                    </label>
                     <input
+                      id="child-name"
+                      name="childName"
                       type="text"
                       required
-                      autoComplete="given-name"
+                      autoComplete="off"
                       value={formData.childName}
-                      onChange={(e) => setFormData({ ...formData, childName: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, childName: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Current Class</label>
+                    <label htmlFor="current-class" className="mb-2 block text-sm font-medium text-slate-700">
+                      Current Class
+                    </label>
                     <select
+                      id="current-class"
+                      name="currentClass"
                       required
-                      autoComplete="off"
                       value={formData.currentClass}
-                      onChange={(e) => setFormData({ ...formData, currentClass: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, currentClass: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     >
                       <option value="">Select current class</option>
-                      <option value="Primary 6">Primary 6</option>
-                      <option value="JSS1">JSS1</option>
-                      <option value="JSS2">JSS2</option>
-                      <option value="JSS3">JSS3</option>
-                      <option value="SS1">SS1</option>
-                      <option value="SS2">SS2</option>
+                      {CURRENT_CLASSES.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6">
+
+                <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Applying To</label>
+                    <label htmlFor="applying-to" className="mb-2 block text-sm font-medium text-slate-700">
+                      Applying To
+                    </label>
                     <select
+                      id="applying-to"
+                      name="applyingTo"
                       required
                       value={formData.applyingTo}
-                      onChange={(e) => setFormData({ ...formData, applyingTo: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, applyingTo: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 bg-white px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     >
                       <option value="">Select class applying to</option>
-                      <option value="JSS1">JSS1</option>
-                      <option value="JSS2">JSS2</option>
-                      <option value="JSS3">JSS3</option>
-                      <option value="SS1">SS1</option>
-                      <option value="SS2">SS2</option>
-                      <option value="SS3">SS3</option>
+                      {APPLYING_TO.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
                     </select>
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Parent/Guardian Name</label>
+                    <label htmlFor="parent-name" className="mb-2 block text-sm font-medium text-slate-700">
+                      Parent/Guardian Name
+                    </label>
                     <input
+                      id="parent-name"
+                      name="parentName"
                       type="text"
                       required
                       autoComplete="name"
                       value={formData.parentName}
-                      onChange={(e) => setFormData({ ...formData, parentName: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, parentName: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     />
                   </div>
                 </div>
-                <div className="grid md:grid-cols-2 gap-6">
+
+                <div className="grid gap-6 md:grid-cols-2">
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Phone Number</label>
+                    <label htmlFor="parent-phone" className="mb-2 block text-sm font-medium text-slate-700">
+                      Phone Number
+                    </label>
                     <input
+                      id="parent-phone"
+                      name="phone"
                       type="tel"
                       required
                       autoComplete="tel"
                       inputMode="tel"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, phone: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     />
                   </div>
+
                   <div>
-                    <label className="block text-sm font-medium text-slate-700 mb-2">Email Address</label>
+                    <label htmlFor="parent-email" className="mb-2 block text-sm font-medium text-slate-700">
+                      Email Address
+                    </label>
                     <input
+                      id="parent-email"
+                      name="email"
                       type="email"
                       required
                       autoComplete="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
+                      onChange={(event) => setFormData({ ...formData, email: event.target.value })}
+                      className="w-full rounded-lg border border-slate-200 px-4 py-3 text-sm focus:ring-2 focus:ring-navy focus:outline-none"
                     />
                   </div>
                 </div>
+
                 <button
                   type="submit"
-                  className="w-full bg-navy text-white px-6 py-4 rounded-lg font-bold text-lg hover:bg-navy/90 transition-colors flex items-center justify-center gap-2"
+                  className="flex w-full items-center justify-center gap-2 rounded-lg bg-navy px-6 py-4 text-lg font-bold text-white transition-colors hover:bg-navy/90"
                 >
-                  Submit Application <ArrowRight size={20} />
+                  Submit Application <ArrowRight size={20} aria-hidden="true" />
                 </button>
               </form>
             </div>
           ) : (
-            <div className="max-w-md mx-auto text-center py-20">
-              <div className="w-16 h-16 rounded-full bg-green-100 flex items-center justify-center text-green-600 mx-auto mb-6">
-                <CheckCircle size={32} />
+            <div className="mx-auto max-w-md py-20 text-center">
+              <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-success/10 text-success">
+                <CheckCircle size={32} aria-hidden="true" />
               </div>
-              <h2 className="font-poppins text-2xl font-bold text-navy mb-4">Application Submitted!</h2>
-              <p className="text-slate-600 mb-8">
-                Thank you, {formData.parentName}. We have received your application for
+              <h2 className="mb-4 font-poppins text-2xl font-bold text-navy">Application Submitted!</h2>
+              <p className="mb-8 text-slate-600">
+                Thank you, {formData.parentName}. We have received your application for{' '}
                 {formData.childName} to {formData.applyingTo}. Our admissions team will contact you
                 at {formData.phone} shortly.
               </p>
               <button
+                type="button"
                 onClick={() => {
                   setSubmitted(false);
-                  setStep(1);
-                  setFormData({ childName: '', currentClass: '', applyingTo: '', parentName: '', phone: '', email: '' });
+                  setFormData(INITIAL_FORM);
                 }}
-                className="bg-navy text-white px-6 py-3 rounded-lg font-medium hover:bg-navy/90 transition-colors"
+                className="rounded-lg bg-navy px-6 py-3 font-medium text-white transition-colors hover:bg-navy/90"
               >
                 Apply Again
               </button>
@@ -195,50 +235,58 @@ export default function Admissions() {
         </div>
       </section>
 
-      <section className="py-16 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <h2 className="font-poppins text-3xl font-bold text-navy mb-4">School Fees (2024/2025 Session)</h2>
+      <section className="bg-slate-50 py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mb-12 text-center">
+            <h2 className="mb-4 font-poppins text-3xl font-bold text-navy">
+              School Fees (2024/2025 Session)
+            </h2>
             <p className="text-slate-600">Fees are payable per term.</p>
           </div>
-          <div className="max-w-xl mx-auto bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+
+          <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
             <table className="w-full text-left">
+              <caption className="sr-only">School fees by level and mode of attendance</caption>
               <thead>
                 <tr className="bg-navy text-white">
-                  <th className="px-6 py-4 text-left">Level</th>
-                  <th className="px-6 py-4 text-right">Day</th>
-                  <th className="px-6 py-4 text-right">Boarding</th>
+                  <th scope="col" className="px-6 py-4 text-left">Level</th>
+                  <th scope="col" className="px-6 py-4 text-right">Day</th>
+                  <th scope="col" className="px-6 py-4 text-right">Boarding</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {FEES.map((fee) => (
-                  <tr key={fee.level} className="hover:bg-slate-50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-slate-700">{fee.level}</td>
-                    <td className="px-6 py-4 text-right text-slate-600">{fee.day}</td>
-                    <td className="px-6 py-4 text-right text-slate-600">{fee.boarding}</td>
+                  <tr key={fee.level} className="transition-colors hover:bg-slate-50">
+                    <th scope="row" className="px-6 py-4 font-medium text-slate-700">{fee.level}</th>
+                    <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.day)}</td>
+                    <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.boarding)}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
-            <div className="bg-slate-50 px-6 py-4 border-t border-slate-100">
+            <div className="border-t border-slate-100 bg-slate-50 px-6 py-4">
               <p className="text-sm text-slate-500">
-                Fees include tuition, textbooks, and examination fees. Boarding fees include accommodation and meals.
+                Fees include tuition, textbooks, and examination fees. Boarding fees include
+                accommodation and meals.
               </p>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid md:grid-cols-3 gap-8">
+      <section className="bg-white py-16">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="grid gap-8 md:grid-cols-3">
             {[
               { icon: MapPin, label: 'Address', text: 'Plot 12, Gwarinpa, Abuja, Nigeria' },
               { icon: Mail, label: 'Email', text: 'admissions@crestfieldacademy.edu.ng' },
               { icon: Phone, label: 'Phone', text: '+234 800 123 4567' },
             ].map((item) => (
-              <div key={item.label} className="flex items-start gap-4 p-6 rounded-xl border border-slate-200 bg-slate-50">
-                <item.icon className="w-6 h-6 text-gold mt-0.5" />
+              <div
+                key={item.label}
+                className="flex items-start gap-4 rounded-xl border border-slate-200 bg-slate-50 p-6"
+              >
+                <item.icon className="mt-0.5 h-6 w-6 shrink-0 text-gold" aria-hidden="true" />
                 <div>
                   <p className="text-sm font-semibold text-navy">{item.label}</p>
                   <p className="text-sm text-slate-600">{item.text}</p>

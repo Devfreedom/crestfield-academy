@@ -177,7 +177,7 @@ function LoginForm() {
                 key={account.email}
                 type="button"
                 onClick={() => fillDemo(account.email)}
-                aria-label={`Fill the sign in form with the ${account.role} demo account`}
+                aria-label={`Fill the sign in form with the ${account.role} demo account, ${account.email}`}
                 className="cursor-pointer rounded-xl border border-slate-200 bg-slate-50 p-4 text-left transition-colors hover:border-navy/30 hover:bg-navy/5"
               >
                 <span className="mb-2 flex flex-wrap items-start justify-between gap-2">
