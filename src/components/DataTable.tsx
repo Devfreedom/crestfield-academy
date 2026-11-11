@@ -11,12 +11,14 @@ export type Column<T> = {
   align?: 'left' | 'right' | 'center';
 };
 
-export type TableFilter = {
+export type TableFilter<T> = {
   id: string;
   label: string;
   options: { value: string; label: string }[];
   value: string;
   onChange: (value: string) => void;
+  /** When provided, rows are narrowed to those matching the selected value. */
+  matches?: (item: T, value: string) => boolean;
 };
 
 type DataTableProps<T> = {
@@ -27,7 +29,7 @@ type DataTableProps<T> = {
   emptyMessage?: string;
   caption: string;
   rowActions?: (item: T) => ReactNode;
-  filters?: TableFilter[];
+  filters?: TableFilter<T>[];
   getRowKey?: (item: T, index: number) => string;
 };
 
@@ -53,16 +55,24 @@ export default function DataTable<T>({
   const filterIds = useId();
 
   const filteredData = useMemo(() => {
+    let rows = data;
+
+    for (const filter of filters ?? []) {
+      if (!filter.matches || !filter.value) continue;
+      rows = rows.filter((item) => filter.matches!(item, filter.value));
+    }
+
     const term = search.trim().toLowerCase();
-    if (!term) return data;
+    if (!term) return rows;
+
     const keys = searchableKeys ?? (Object.keys(data[0] ?? {}) as (keyof T & string)[]);
-    return data.filter((item) =>
+    return rows.filter((item) =>
       keys.some((key) => {
         const value = item[key];
         return value != null && String(value).toLowerCase().includes(term);
       }),
     );
-  }, [data, search, searchableKeys]);
+  }, [data, search, searchableKeys, filters]);
 
   const keyFor = (item: T, index: number) => {
     if (getRowKey) return getRowKey(item, index);
