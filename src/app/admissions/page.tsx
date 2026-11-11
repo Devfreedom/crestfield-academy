@@ -143,7 +143,7 @@ export default function Admissions() {
                       type="tel"
                       required
                       autoComplete="tel"
-                      inputmode="tel"
+                      inputMode="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                       className="w-full px-4 py-3 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"

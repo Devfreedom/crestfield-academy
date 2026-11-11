@@ -35,6 +35,7 @@ export function isAuthenticated(): boolean {
   return getCurrentUser() !== null;
 }
 
+export type { Role };
 export const DEMO_USERS: User[] = [
   { id: '1', name: 'Super Admin', email: 'superadmin@crestfield.edu.ng', role: 'super_admin' },
   { id: '2', name: 'Admin Officer', email: 'admin@crestfield.edu.ng', role: 'admin' },

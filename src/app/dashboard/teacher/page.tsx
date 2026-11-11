@@ -8,7 +8,7 @@ import PageHeader from '@/components/PageHeader';
 import DataTable from '@/components/DataTable';
 import { STUDENTS, TEACHERS, ASSIGNMENTS, ATTENDANCE, TIMETABLE } from '@/lib/data';
 import { formatCurrency, formatDate } from '@/lib/utils';
-import { GraduationCap, ClipboardList, FileText, BarChart3, Calendar, Plus, Check, Save } from 'lucide-react';
+import { GraduationCap, Users, ClipboardList, FileText, BarChart3, Calendar, Plus, Check, Save } from 'lucide-react';
 
 export default function TeacherDashboard() {
   if (typeof window !== 'undefined') {
@@ -25,7 +25,7 @@ export default function TeacherDashboard() {
   const teacher = TEACHERS[0]; // Mr. James Okafor
   const myClasses = TEACHERS.flatMap((t) => t.classes);
   const myAssignments = ASSIGNMENTS.filter((a) => a.createdBy === teacher.id);
-  const classStudents = STUDENTS.filter((s) => myClasses.includes(s.class));
+  const classStudents = STUDENTS.filter((s: { class: string }) => myClasses.includes(s.class));
 
   const handleSaveAttendance = (e: React.FormEvent) => {
     e.preventDefault();

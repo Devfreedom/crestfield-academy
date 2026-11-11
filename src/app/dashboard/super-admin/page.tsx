@@ -18,7 +18,7 @@ export default function SuperAdminDashboard() {
 
   const [users, setUsers] = useState(ADMIN_USERS);
   const [showCreateUser, setShowCreateUser] = useState(false);
-  const [newUser, setNewUser] = useState({ name: '', email: '', role: 'admin' as const, password: '' });
+  const [newUser, setNewUser] = useState({ name: '', email: '', role: 'admin' as 'admin' | 'teacher' | 'student', password: '' });
 
   useEffect(() => {
     requireRole(['super_admin']);
