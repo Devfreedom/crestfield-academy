@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen, MapPin } from 'lucide-react';
+import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen } from 'lucide-react';
+import HomeHero from '@/components/HomeHero';
+import AtAGlancePanel from '@/components/AtAGlancePanel';
 import { NEWS_ITEMS } from '@/lib/data';
 
 const STATS = [
@@ -48,13 +50,6 @@ const WHY_CRESTFIELD = [
   },
 ];
 
-const AT_A_GLANCE = [
-  { icon: MapPin, label: 'Location', value: 'Plot 12, Gwarinpa, Abuja' },
-  { icon: BookOpen, label: 'Curriculum', value: 'British-Nigerian' },
-  { icon: Award, label: 'Examinations', value: 'WAEC \u00b7 NECO \u00b7 IGCSE' },
-  { icon: Users, label: 'Class Size', value: 'Average 24 students' },
-];
-
 const TESTIMONIALS = [
   {
     name: 'Mrs. Folake Adebayo',
@@ -71,47 +66,7 @@ const TESTIMONIALS = [
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
-      <section className="relative overflow-hidden bg-navy text-white">
-        {/* Decorative background is built entirely in CSS, so the hero needs no
-            image request and the LCP element paints immediately. */}
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(201,162,39,0.28),transparent_45%),radial-gradient(circle_at_88%_8%,rgba(255,255,255,0.12),transparent_42%)]"
-        />
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 opacity-[0.06] [background-image:linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] [background-size:56px_56px]"
-        />
-
-        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:py-32">
-          <div className="max-w-4xl">
-            <span className="mb-6 inline-block rounded-full border border-gold/30 bg-gold/20 px-4 py-1.5 text-sm font-semibold text-gold">
-              Admissions Open for 2025/2026 Session
-            </span>
-            <h1 className="mb-6 font-poppins text-4xl font-bold leading-tight lg:text-6xl">
-              Where Character Meets Excellence
-            </h1>
-            <p className="mb-8 max-w-2xl text-lg leading-relaxed text-slate-200 lg:text-xl">
-              Crestfield Academy offers a world-class British-Nigerian curriculum from JSS1 to SS3,
-              nurturing future leaders with integrity, discipline, and academic excellence in Abuja.
-            </p>
-            <div className="flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/admissions"
-                className="flex items-center justify-center gap-2 rounded-lg bg-gold px-8 py-4 text-lg font-bold text-navy transition-colors hover:bg-gold/90"
-              >
-                Apply Now <ArrowRight size={20} aria-hidden="true" />
-              </Link>
-              <Link
-                href="/academics"
-                className="flex items-center justify-center gap-2 rounded-lg border border-white/30 px-8 py-4 text-lg font-bold text-white transition-colors hover:bg-white/10"
-              >
-                Explore Academics
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HomeHero />
 
       <section className="bg-white py-16">
         <div className="mx-auto max-w-7xl px-6">
@@ -159,25 +114,7 @@ export default function Home() {
         <div className="mx-auto max-w-7xl px-6">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
             <div className="w-full lg:w-1/2">
-              <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-navy to-[#162f63] p-8 text-white shadow-lg">
-                <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gold">
-                  Crestfield at a glance
-                </p>
-                <h2 className="mb-6 font-poppins text-2xl font-bold">Comprehensive Academics</h2>
-                <ul className="space-y-4">
-                  {AT_A_GLANCE.map((item) => (
-                    <li key={item.label} className="flex items-center gap-4 border-b border-white/10 pb-4 last:border-0 last:pb-0">
-                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-gold/15 text-gold">
-                        <item.icon size={20} aria-hidden="true" />
-                      </span>
-                      <div>
-                        <p className="text-xs uppercase tracking-wider text-slate-300">{item.label}</p>
-                        <p className="font-medium text-white">{item.value}</p>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <AtAGlancePanel />
             </div>
             <div className="lg:w-1/2">
               <h2 className="mb-6 font-poppins text-3xl font-bold text-navy">Comprehensive Academics</h2>

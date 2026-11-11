@@ -223,6 +223,90 @@ dialog.modal[open]::backdrop {
 }
 
 /* ---------------------------------------------------------------------------
+   Mobile dashboard drawer — a native <dialog> opened with showModal().
+   The browser supplies the top layer, makes the rest of the page inert,
+   handles Esc, and restores focus to the trigger on close. Because the
+   dialog is a top-layer element, we never touch `overflow` on <body>
+   (which would remove the scrollbar and shift the layout).
+   Reference: Modern Web Guidance "navigation-drawer" / "prevent-page-scroll-
+   under-modal-dialog".
+   --------------------------------------------------------------------------- */
+
+dialog.drawer {
+  position: fixed;
+  inset: 0 auto 0 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  width: min(18rem, 85vw);
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+
+/* MANDATORY: contain scroll chaining so the page underneath cannot scroll
+   while the drawer is open. `::backdrop` needs overflow:hidden to become a
+   scroll container, otherwise overscroll-behavior is ignored. */
+dialog.drawer:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.drawer::backdrop {
+  background-color: rgba(11, 31, 75, 0.55);
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+
+/* Slide-in from the edge. Transforms are opt-in so a reduced-motion
+   preference never gets an animation. */
+@media (prefers-reduced-motion: no-preference) {
+  dialog.drawer {
+    transform: translateX(-100%);
+    transition-property: transform, display, overlay;
+    transition-duration: 250ms;
+    transition-timing-function: ease-out;
+    transition-behavior: allow-discrete;
+  }
+
+  dialog.drawer[open] {
+    transform: translateX(0);
+  }
+}
+
+@starting-style {
+  dialog.drawer[open] {
+    transform: translateX(-100%);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Public navbar mobile menu — a native popover.
+   The browser provides light dismiss, Esc handling, top-layer rendering and
+   focus management, so we add no document-level listeners.
+   Reference: Modern Web Guidance "navbar".
+   --------------------------------------------------------------------------- */
+
+nav.site-menu {
+  position: fixed;
+  inset: 4.5rem 0 auto 0;
+  margin: 0;
+  width: 100%;
+  max-width: none;
+  max-height: calc(100dvh - 4.5rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 0;
+  border: 0;
+  border-top: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: inherit;
+  box-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.1);
+}
+
+/* ---------------------------------------------------------------------------
    Container queries — dashboard cards adapt to their own available width
    rather than the viewport.
    Reference: Modern Web Guidance "css-layout" §4 / "card".
