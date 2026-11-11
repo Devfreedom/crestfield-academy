@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
   LayoutDashboard,
   Users,
@@ -118,6 +118,7 @@ function SidebarBody({ role, activeId, onNavigate }: { role: Role; activeId: str
 
 export default function Sidebar({ role, mobileOpen, onMobileClose }: SidebarProps) {
   const [activeId, setActiveId] = useState('overview');
+  const drawerRef = useRef<HTMLDialogElement>(null);
 
   // Highlight the section currently in view.
   useEffect(() => {
@@ -142,24 +143,39 @@ export default function Sidebar({ role, mobileOpen, onMobileClose }: SidebarProp
     return () => observer.disconnect();
   }, [role]);
 
-  // Lock body scroll while the mobile drawer is open.
+  // The mobile drawer is a native <dialog>. showModal() puts it in the top
+  // layer, makes the rest of the page inert, handles Esc and restores focus.
+  // We never lock <body> overflow: that removes the scrollbar and shifts the
+  // whole page. Scroll containment comes from `dialog:modal` and `::backdrop`
+  // (see globals.css).
   useEffect(() => {
-    if (!mobileOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
+    const dialog = drawerRef.current;
+    if (!dialog) return;
+
+    const desktop = window.matchMedia('(min-width: 768px)').matches;
+
+    if (mobileOpen && !desktop && !dialog.open) {
+      dialog.showModal();
+    } else if (!mobileOpen && dialog.open) {
+      dialog.close();
+    }
   }, [mobileOpen]);
 
+  // Keep the parent in sync when the dialog closes itself (Esc, backdrop).
   useEffect(() => {
-    if (!mobileOpen) return;
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') onMobileClose();
-    };
-    window.addEventListener('keydown', onKeyDown);
-    return () => window.removeEventListener('keydown', onKeyDown);
-  }, [mobileOpen, onMobileClose]);
+    const dialog = drawerRef.current;
+    if (!dialog) return;
+
+    const handleClose = () => onMobileClose();
+    dialog.addEventListener('close', handleClose);
+    return () => dialog.removeEventListener('close', handleClose);
+  }, [onMobileClose]);
+
+  const closeDrawer = () => {
+    const dialog = drawerRef.current;
+    if (dialog?.open) dialog.close();
+    onMobileClose();
+  };
 
   return (
     <>
@@ -174,42 +190,35 @@ export default function Sidebar({ role, mobileOpen, onMobileClose }: SidebarProp
         <SidebarBody role={role} activeId={activeId} onNavigate={() => {}} />
       </aside>
 
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <button
-            type="button"
-            aria-label="Close navigation menu"
-            onClick={onMobileClose}
-            className="absolute inset-0 h-full w-full cursor-default bg-navy/50"
-          />
-          <aside
-            id="dashboard-navigation"
-            aria-label="Dashboard sections"
-            className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white shadow-xl"
-          >
-            <div className="flex h-16 items-center justify-between border-b border-slate-100 px-4">
-              <div className="flex items-center gap-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-bold text-gold">
-                  CA
-                </div>
-                <span className="font-poppins text-base font-bold tracking-tight text-navy">
-                  Crestfield
-                </span>
+      {/* Mobile drawer — native <dialog> opened with showModal() */}
+      <dialog
+        ref={drawerRef}
+        id="dashboard-navigation"
+        className="drawer"
+        aria-label="Dashboard navigation"
+      >
+        <div className="flex h-full flex-col bg-white">
+          <div className="flex h-16 shrink-0 items-center justify-between border-b border-slate-100 px-4">
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-bold text-gold">
+                CA
               </div>
-              <button
-                type="button"
-                onClick={onMobileClose}
-                aria-label="Close navigation menu"
-                className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-navy"
-              >
-                <X size={20} />
-              </button>
+              <span className="font-poppins text-base font-bold tracking-tight text-navy">
+                Crestfield
+              </span>
             </div>
-            <SidebarBody role={role} activeId={activeId} onNavigate={onMobileClose} />
-          </aside>
+            <button
+              type="button"
+              onClick={closeDrawer}
+              aria-label="Close navigation menu"
+              className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-navy"
+            >
+              <X size={20} aria-hidden="true" />
+            </button>
+          </div>
+          <SidebarBody role={role} activeId={activeId} onNavigate={closeDrawer} />
         </div>
-      )}
+      </dialog>
     </>
   );
 }
