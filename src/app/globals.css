@@ -1,20 +1,182 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0B1F4B;
-  --color-gold: #C9A227;
-  --color-success: #16A34A;
-  --color-danger: #DC2626;
-  --color-warning: #D97706;
+  --color-navy: #0b1f4b;
+  --color-gold: #c9a227;
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-warning: #d97706;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f6f8;
+  --color-ink: #0b1f4b;
+  --color-body: #475569;
 }
 
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+/* Font families come from next/font (see src/app/layout.tsx). `inline` lets the
+   theme reference the variables next/font injects on <html>. */
+@theme inline {
+  --font-sans: var(--font-inter-body), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-poppins: var(--font-poppins-heading), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
-.font-poppins {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #f5f6f8;
+    color: #475569;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-poppins);
+    color: #0b1f4b;
+  }
+
+  /* Visible keyboard focus everywhere (accessibility guide: focus management). */
+  :focus-visible {
+    outline: 3px solid #c9a227;
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Anchor targets (dashboard sidebar jumps) clear the sticky topbar. */
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Native <dialog> modals
+   Reference: Modern Web Guidance "dialog" + "animate-to-from-top-layer".
+   The browser provides the top layer, focus containment, Esc handling and
+   `::backdrop`, so we never hand-roll a focus trap or `inert` toggling.
+   --------------------------------------------------------------------------- */
+
+dialog.modal {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  max-width: min(92vw, 36rem);
+  width: 100%;
+  margin: auto;
+  opacity: 0;
+  transition-property: opacity, transform, display, overlay;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+dialog.modal[open] {
+  opacity: 1;
+}
+
+/* Transforms only when the user has not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  dialog.modal {
+    transform: translateY(0.75rem) scale(0.97);
+  }
+
+  dialog.modal[open] {
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Entry state for top-layer elements. */
+@starting-style {
+  dialog.modal[open] {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.97);
+  }
+}
+
+/* MANDATORY: contain scroll chaining so the page underneath cannot scroll
+   while the modal is open. `::backdrop` needs overflow:hidden to become a
+   scroll container, otherwise overscroll-behavior is ignored. */
+dialog.modal:modal {
+  overscroll-behavior: contain;
+}
+
+dialog.modal::backdrop {
+  background-color: rgba(11, 31, 75, 0);
+  overflow: hidden;
+  overscroll-behavior: contain;
+  transition-property: background-color, display, overlay;
+  transition-duration: 200ms;
+  transition-timing-function: ease-out;
+  transition-behavior: allow-discrete;
+}
+
+dialog.modal[open]::backdrop {
+  background-color: rgba(11, 31, 75, 0.55);
+}
+
+@starting-style {
+  dialog.modal[open]::backdrop {
+    background-color: rgba(11, 31, 75, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  dialog.modal,
+  dialog.modal::backdrop {
+    transition-duration: 0.1s;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Container queries — dashboard cards adapt to their own available width
+   rather than the viewport.
+   Reference: Modern Web Guidance "css-layout" §4 / "card".
+   --------------------------------------------------------------------------- */
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 1.5rem;
+}
+
+.stat-card {
+  container: statcard / inline-size;
+}
+
+@container statcard (inline-size < 13rem) {
+  .stat-card__body {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+}
+
+.section-card {
+  container: sectioncard / inline-size;
+}
+
+@container sectioncard (inline-size < 30rem) {
+  .section-card__header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* Visually hidden, but still announced by screen readers. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

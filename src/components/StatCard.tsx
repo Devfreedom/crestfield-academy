@@ -6,37 +6,37 @@ type StatCardProps = {
   change?: string;
   changeType?: 'positive' | 'negative' | 'neutral';
   icon: ReactNode;
-  color?: string;
+  tone?: 'navy' | 'gold';
 };
+
+const CHANGE_COLOR = {
+  positive: 'text-success',
+  negative: 'text-danger',
+  neutral: 'text-slate-500',
+} as const;
 
 export default function StatCard({
   title,
   value,
   change,
-  changeType,
+  changeType = 'neutral',
   icon,
-  color = 'text-navy',
+  tone = 'navy',
 }: StatCardProps) {
-  const changeColor =
-    changeType === 'positive'
-      ? 'text-success'
-      : changeType === 'negative'
-        ? 'text-danger'
-        : 'text-slate-500';
+  const iconStyle =
+    tone === 'gold' ? 'bg-gold/10 text-gold' : 'bg-navy/10 text-navy';
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-sm text-slate-500 font-medium">{title}</p>
-          <p className="text-2xl font-bold text-navy mt-1">{value}</p>
+    <div className="stat-card rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
+      <div className="stat-card__body flex items-start justify-between gap-4">
+        <div className="min-w-0">
+          <p className="text-sm font-medium text-slate-500">{title}</p>
+          <p className="mt-1 font-poppins text-2xl font-bold text-navy">{value}</p>
           {change && (
-            <p className={`text-xs font-medium mt-2 ${changeColor}`}>
-              {change}
-            </p>
+            <p className={`mt-2 text-xs font-medium ${CHANGE_COLOR[changeType]}`}>{change}</p>
           )}
         </div>
-        <div className={`w-10 h-10 rounded-lg ${color === 'text-navy' ? 'bg-navy/10' : 'bg-gold/10'} flex items-center justify-center ${color}`}>
+        <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconStyle}`}>
           {icon}
         </div>
       </div>

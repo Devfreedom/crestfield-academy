@@ -8,6 +8,12 @@ import type {
   Announcement,
   TimetableEntry,
   Receipt,
+  Grade,
+  Application,
+  Resource,
+  NewsItem,
+  Permission,
+  SchoolSettings,
 } from '@/types';
 
 export const STUDENTS: Student[] = [
@@ -252,3 +258,107 @@ export const ADMIN_USERS = [
   { id: 'u6', name: 'Dr. Adaeze Okonkwo', email: 'adaeze.okonkwo@crestfield.edu.ng', role: 'teacher' as const },
   { id: 'u7', name: 'Mr. Ibrahim Musa', email: 'ibrahim.musa@crestfield.edu.ng', role: 'teacher' as const },
 ];
+
+export const GRADES: Grade[] = [
+  { id: 'g1', studentId: 's1', class: 'SS2', subject: 'Mathematics', assessment: 'Quadratic Equations Problem Set', score: 88, grade: 'B2', remark: 'Very good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g2', studentId: 's1', class: 'SS2', subject: 'English Language', assessment: 'Comprehension: Things Fall Apart', score: 74, grade: 'C4', remark: 'Good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g3', studentId: 's1', class: 'SS2', subject: 'Biology', assessment: 'Cell Biology Lab Report', score: 91, grade: 'A1', remark: 'Excellent', term: 'Second Term', session: '2024/2025' },
+  { id: 'g4', studentId: 's1', class: 'SS2', subject: 'Civic Education', assessment: 'Essay: The Role of Citizens in Democracy', score: 80, grade: 'B3', remark: 'Very good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g5', studentId: 's1', class: 'SS2', subject: 'Physics', assessment: 'Continuous Assessment 1', score: 85, grade: 'B2', remark: 'Very good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g6', studentId: 's1', class: 'SS2', subject: 'Chemistry', assessment: 'Continuous Assessment 1', score: 78, grade: 'C3', remark: 'Good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g7', studentId: 's3', class: 'SS1', subject: 'English Language', assessment: 'Comprehension: Things Fall Apart', score: 66, grade: 'C5', remark: 'Credit', term: 'Second Term', session: '2024/2025' },
+  { id: 'g8', studentId: 's3', class: 'SS1', subject: 'Mathematics', assessment: 'Quadratic Equations Problem Set', score: 59, grade: 'C6', remark: 'Credit', term: 'Second Term', session: '2024/2025' },
+  { id: 'g9', studentId: 's3', class: 'SS1', subject: 'Basic Science', assessment: 'Continuous Assessment 1', score: 72, grade: 'C4', remark: 'Good', term: 'Second Term', session: '2024/2025' },
+  { id: 'g10', studentId: 's5', class: 'JSS2', subject: 'Mathematics', assessment: 'Continuous Assessment 1', score: 93, grade: 'A1', remark: 'Excellent', term: 'Second Term', session: '2024/2025' },
+  { id: 'g11', studentId: 's5', class: 'JSS2', subject: 'Basic Science', assessment: 'Continuous Assessment 1', score: 89, grade: 'B2', remark: 'Very good', term: 'Second Term', session: '2024/2025' },
+];
+
+export const APPLICATIONS: Application[] = [
+  { id: 'ap1', childName: 'Musa Ibrahim', applyingTo: 'JSS1', parentName: 'Mr. Ibrahim Sani', phone: '+234 803 441 2290', email: 'ibrahim.sani@example.com', submittedOn: '2025-11-10', status: 'Pending' },
+  { id: 'ap2', childName: 'Amina Bello', applyingTo: 'SS1', parentName: 'Mrs. Hauwa Bello', phone: '+234 806 772 1184', email: 'hauwa.bello@example.com', submittedOn: '2025-11-09', status: 'Under Review' },
+  { id: 'ap3', childName: 'Tobi Adeyemi', applyingTo: 'JSS2', parentName: 'Mr. Segun Adeyemi', phone: '+234 705 908 3341', email: 'segun.adeyemi@example.com', submittedOn: '2025-11-08', status: 'Shortlisted' },
+  { id: 'ap4', childName: 'Halima Yusuf', applyingTo: 'JSS3', parentName: 'Mrs. Aisha Yusuf', phone: '+234 812 330 8876', email: 'aisha.yusuf@example.com', submittedOn: '2025-11-06', status: 'Offered' },
+  { id: 'ap5', childName: 'Emeka Uche', applyingTo: 'SS2', parentName: 'Mr. Chidi Uche', phone: '+234 809 551 6620', email: 'chidi.uche@example.com', submittedOn: '2025-11-05', status: 'Under Review' },
+  { id: 'ap6', childName: 'Zainab Lawal', applyingTo: 'JSS1', parentName: 'Mrs. Bisi Lawal', phone: '+234 816 224 7738', email: 'bisi.lawal@example.com', submittedOn: '2025-11-04', status: 'Pending' },
+  { id: 'ap7', childName: 'David Eze', applyingTo: 'SS3', parentName: 'Mr. Ifeanyi Eze', phone: '+234 807 116 4402', email: 'ifeanyi.eze@example.com', submittedOn: '2025-11-02', status: 'Offered' },
+  { id: 'ap8', childName: 'Blessing Yusuf', applyingTo: 'SS1', parentName: 'Mr. Nasir Yusuf', phone: '+234 810 337 9951', email: 'nasir.yusuf@example.com', submittedOn: '2025-11-01', status: 'Pending' },
+];
+
+export const RESOURCES: Resource[] = [
+  { id: 'r1', title: 'Quadratic Equations Lecture Notes', subject: 'Mathematics', class: 'SS2', fileName: 'quadratic-equations-notes.pdf', size: '1.8 MB', uploadedOn: '2025-11-07', uploadedBy: 't1' },
+  { id: 'r2', title: 'Cell Biology Practical Manual', subject: 'Biology', class: 'SS1', fileName: 'cell-biology-practical.pdf', size: '3.2 MB', uploadedOn: '2025-11-05', uploadedBy: 't3' },
+  { id: 'r3', title: 'Democracy Essay Guidance', subject: 'Civic Education', class: 'SS2', fileName: 'democracy-essay-guide.docx', size: '96 KB', uploadedOn: '2025-11-03', uploadedBy: 't4' },
+  { id: 'r4', title: 'Things Fall Apart Study Guide', subject: 'English Language', class: 'SS1', fileName: 'things-fall-apart-guide.pdf', size: '2.1 MB', uploadedOn: '2025-10-30', uploadedBy: 't2' },
+];
+
+export const NEWS_ITEMS: NewsItem[] = [
+  { id: 'n1', title: 'WAEC Registration Now Open', date: 'November 8, 2025', excerpt: 'SS3 students can now register for the 2025 WAEC examinations. Deadline: November 30.' },
+  { id: 'n2', title: 'Mid-Term Break Announcement', date: 'November 10, 2025', excerpt: 'School will be closed from November 15-17 for mid-term break. Classes resume Monday, November 18.' },
+  { id: 'n3', title: 'Science Fair 2025', date: 'October 25, 2025', excerpt: 'Our annual science fair showcased innovative student projects in robotics, chemistry, and environmental science.' },
+];
+
+export const REVENUE_BY_TERM = [
+  { term: 'First Term', revenue: 68200000, collected: 61400000 },
+  { term: 'Second Term', revenue: 74800000, collected: 69400000 },
+  { term: 'Third Term', revenue: 79500000, collected: 72100000 },
+];
+
+export const ENROLLMENT_GROWTH = [
+  { session: '2021/2022', students: 610, teachers: 48 },
+  { session: '2022/2023', students: 668, teachers: 51 },
+  { session: '2023/2024', students: 742, teachers: 56 },
+  { session: '2024/2025', students: 812, teachers: 59 },
+  { session: '2025/2026', students: 850, teachers: 62 },
+];
+
+export const CLASS_PERFORMANCE = [
+  { class: 'JSS1 A', students: 32, average: 61, best: 88, passRate: 84 },
+  { class: 'JSS1 B', students: 30, average: 58, best: 81, passRate: 79 },
+  { class: 'JSS2 A', students: 28, average: 66, best: 90, passRate: 88 },
+  { class: 'JSS2 B', students: 29, average: 63, best: 85, passRate: 82 },
+  { class: 'JSS3 A', students: 31, average: 69, best: 92, passRate: 91 },
+  { class: 'SS1 A', students: 25, average: 72, best: 94, passRate: 94 },
+  { class: 'SS1 B', students: 26, average: 68, best: 87, passRate: 87 },
+  { class: 'SS2 A', students: 24, average: 74, best: 96, passRate: 96 },
+  { class: 'SS2 B', students: 23, average: 71, best: 89, passRate: 90 },
+  { class: 'SS3 A', students: 22, average: 78, best: 97, passRate: 98 },
+];
+
+export const ATTENDANCE_REPORT = [
+  { class: 'JSS1 A', present: 29, absent: 1, late: 2, rate: 94 },
+  { class: 'JSS2 A', present: 25, absent: 1, late: 2, rate: 89 },
+  { class: 'SS1 A', present: 23, absent: 1, late: 1, rate: 92 },
+  { class: 'SS1 B', present: 22, absent: 2, late: 2, rate: 85 },
+  { class: 'SS2 A', present: 22, absent: 1, late: 1, rate: 92 },
+  { class: 'SS2 B', present: 19, absent: 2, late: 2, rate: 83 },
+  { class: 'SS3 A', present: 20, absent: 1, late: 1, rate: 91 },
+];
+
+export const PERMISSIONS: Permission[] = [
+  { area: 'View dashboard', super_admin: true, admin: true, teacher: true, student: true },
+  { area: 'Manage users & roles', super_admin: true, admin: false, teacher: false, student: false },
+  { area: 'School settings', super_admin: true, admin: false, teacher: false, student: false },
+  { area: 'Manage students', super_admin: true, admin: true, teacher: false, student: false },
+  { area: 'Manage classes & timetable', super_admin: true, admin: true, teacher: false, student: false },
+  { area: 'Manage fees & receipts', super_admin: true, admin: true, teacher: false, student: false },
+  { area: 'Publish announcements', super_admin: true, admin: true, teacher: false, student: false },
+  { area: 'View school reports', super_admin: true, admin: true, teacher: false, student: false },
+  { area: 'Take attendance', super_admin: true, admin: true, teacher: true, student: false },
+  { area: 'Create & grade assignments', super_admin: true, admin: true, teacher: true, student: false },
+  { area: 'Upload teaching resources', super_admin: true, admin: true, teacher: true, student: false },
+  { area: 'View own grades', super_admin: true, admin: true, teacher: true, student: true },
+  { area: 'Pay fees & view receipts', super_admin: true, admin: true, teacher: false, student: true },
+];
+
+export const SCHOOL_SETTINGS: SchoolSettings = {
+  schoolName: 'Crestfield Academy',
+  term: 'Second Term',
+  session: '2024/2025',
+  address: 'Plot 12, Gwarinpa, Abuja, Nigeria',
+  email: 'admissions@crestfieldacademy.edu.ng',
+  phone: '+234 800 123 4567',
+};
+
+export const TERM_OPTIONS = ['First Term', 'Second Term', 'Third Term'];
+export const SESSION_OPTIONS = ['2023/2024', '2024/2025', '2025/2026'];
+export const CLASS_LEVELS = ['JSS1', 'JSS2', 'JSS3', 'SS1', 'SS2', 'SS3'] as const;

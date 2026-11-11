@@ -15,8 +15,8 @@ export type Student = {
   class: 'JSS1' | 'JSS2' | 'JSS3' | 'SS1' | 'SS2' | 'SS3';
   section: 'A' | 'B';
   gender: 'Male' | 'Female';
-  attendance: number;
-  feesOwed: number;
+  attendance: number; // %
+  feesOwed: number; // in Naira
   status: 'Active' | 'Suspended' | 'Graduated';
 };
 
@@ -24,7 +24,7 @@ export type Teacher = {
   id: string;
   name: string;
   subject: string;
-  classes: string[];
+  classes: string[]; // e.g. ['SS1', 'SS2']
   email: string;
 };
 
@@ -90,4 +90,63 @@ export type Receipt = {
   date: string;
   term: string;
   session: string;
+};
+
+export type Grade = {
+  id: string;
+  studentId: string;
+  class: string;
+  subject: string;
+  assessment: string;
+  score: number; // out of 100
+  grade: string; // A1 - F9
+  remark: string;
+  term: string;
+  session: string;
+};
+
+export type Application = {
+  id: string;
+  childName: string;
+  applyingTo: string;
+  parentName: string;
+  phone: string;
+  email: string;
+  submittedOn: string;
+  status: 'Pending' | 'Under Review' | 'Shortlisted' | 'Offered';
+};
+
+export type Resource = {
+  id: string;
+  title: string;
+  subject: string;
+  class: string;
+  fileName: string;
+  size: string;
+  uploadedOn: string;
+  uploadedBy: string;
+};
+
+export type NewsItem = {
+  id: string;
+  title: string;
+  date: string;
+  excerpt: string;
+};
+
+export type Permission = {
+  area: string;
+  super_admin: boolean;
+  admin: boolean;
+  teacher: boolean;
+  student: boolean;
+};
+
+export type SchoolSettings = {
+  schoolName: string;
+  term: string;
+  session: string;
+  address: string;
+  email: string;
+  phone: string;
 };

@@ -1,186 +1,211 @@
 'use client';
 
-import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   LayoutDashboard,
   Users,
-  User,
   GraduationCap,
   FileText,
   BarChart3,
   Settings,
   Shield,
-  ChevronRight,
   LogOut,
-  Menu,
-  X,
   Calendar,
   ClipboardList,
   CreditCard,
   Megaphone,
+  Paperclip,
+  X,
+  type LucideIcon,
 } from 'lucide-react';
-import { getCurrentUser, logout, type Role } from '@/lib/auth';
+import { logout, type Role } from '@/lib/auth';
 
-type SidebarItem = {
+type Section = {
+  id: string;
   label: string;
-  href: string;
-  icon: React.ElementType;
-  roles: Role[];
+  icon: LucideIcon;
 };
 
-const SIDEBAR_ITEMS: SidebarItem[] = [
-  { label: 'Dashboard', href: '/dashboard/super-admin', icon: LayoutDashboard, roles: ['super_admin', 'admin', 'teacher', 'student'] },
-  { label: 'Manage Users', href: '/dashboard/super-admin/users', icon: Users, roles: ['super_admin'] },
-  { label: 'Students', href: '/dashboard/admin/students', icon: User, roles: ['admin'] },
-  { label: 'Classes & Timetable', href: '/dashboard/admin/classes', icon: GraduationCap, roles: ['admin'] },
-  { label: 'Fees', href: '/dashboard/admin/fees', icon: CreditCard, roles: ['admin'] },
-  { label: 'Announcements', href: '/dashboard/admin/announcements', icon: Megaphone, roles: ['admin'] },
-  { label: 'My Classes', href: '/dashboard/teacher/classes', icon: GraduationCap, roles: ['teacher'] },
-  { label: 'Attendance', href: '/dashboard/teacher/attendance', icon: ClipboardList, roles: ['teacher'] },
-  { label: 'Assignments', href: '/dashboard/teacher/assignments', icon: FileText, roles: ['teacher'] },
-  { label: 'Grades', href: '/dashboard/teacher/grades', icon: BarChart3, roles: ['teacher'] },
-  { label: 'My Classes', href: '/dashboard/student/classes', icon: Calendar, roles: ['student'] },
-  { label: 'Assignments', href: '/dashboard/student/assignments', icon: FileText, roles: ['student'] },
-  { label: 'Grades', href: '/dashboard/student/grades', icon: BarChart3, roles: ['student'] },
-  { label: 'Fees', href: '/dashboard/student/fees', icon: CreditCard, roles: ['student'] },
-  { label: 'Settings', href: '/dashboard/settings', icon: Settings, roles: ['super_admin', 'admin'] },
-];
+/**
+ * Each role portal is a single page (per the AGENTS.md folder structure), so the
+ * sidebar navigates to sections on that page via anchors instead of linking to
+ * routes that do not exist.
+ */
+const SIDEBAR_SECTIONS: Record<Role, Section[]> = {
+  super_admin: [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'users', label: 'Manage Users', icon: Users },
+    { id: 'roles', label: 'Manage Roles', icon: Shield },
+    { id: 'settings', label: 'Settings', icon: Settings },
+  ],
+  admin: [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'students', label: 'Students', icon: Users },
+    { id: 'classes', label: 'Classes & Timetable', icon: GraduationCap },
+    { id: 'fees', label: 'Fees', icon: CreditCard },
+    { id: 'announcements', label: 'Announcements', icon: Megaphone },
+    { id: 'reports', label: 'Reports', icon: BarChart3 },
+  ],
+  teacher: [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'classes', label: 'My Classes', icon: GraduationCap },
+    { id: 'attendance', label: 'Attendance', icon: ClipboardList },
+    { id: 'assignments', label: 'Assignments', icon: FileText },
+    { id: 'grades', label: 'Grades', icon: BarChart3 },
+    { id: 'timetable', label: 'Timetable', icon: Calendar },
+    { id: 'resources', label: 'Resources', icon: Paperclip },
+  ],
+  student: [
+    { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'classes', label: 'My Classes', icon: Calendar },
+    { id: 'assignments', label: 'Assignments', icon: FileText },
+    { id: 'attendance', label: 'Attendance', icon: ClipboardList },
+    { id: 'grades', label: 'Grades', icon: BarChart3 },
+    { id: 'fees', label: 'Fees', icon: CreditCard },
+    { id: 'announcements', label: 'Announcements', icon: Megaphone },
+  ],
+};
 
-export default function Sidebar() {
-  const [collapsed, setCollapsed] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
+type SidebarProps = {
+  role: Role;
+  mobileOpen: boolean;
+  onMobileClose: () => void;
+};
 
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) setMobileOpen(false);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const user = getCurrentUser();
-  const role = user?.role;
-
-  const items = SIDEBAR_ITEMS.filter((item) => item.roles.includes(role as Role));
-
-  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+function SidebarBody({ role, activeId, onNavigate }: { role: Role; activeId: string; onNavigate: () => void }) {
+  const sections = SIDEBAR_SECTIONS[role] ?? [];
 
   return (
     <>
-      {/* Mobile overlay */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/50 md:hidden"
-          onClick={() => setMobileOpen(false)}
-        ></div>
-      )}
+      <nav aria-label="Dashboard sections" className="flex-1 space-y-1 overflow-y-auto px-4 py-4">
+        {sections.map((section) => {
+          const isActive = activeId === section.id;
+          const Icon = section.icon;
+          return (
+            <a
+              key={section.id}
+              href={`#${section.id}`}
+              onClick={onNavigate}
+              aria-current={isActive ? 'true' : undefined}
+              className={`flex items-center gap-3 rounded-lg border-l-2 px-3 py-2.5 text-sm font-medium transition-colors ${
+                isActive
+                  ? 'border-gold bg-navy/5 text-navy'
+                  : 'border-transparent text-slate-600 hover:bg-slate-50 hover:text-navy'
+              }`}
+            >
+              <Icon size={18} className={isActive ? 'text-navy' : 'text-slate-400'} aria-hidden="true" />
+              {section.label}
+            </a>
+          );
+        })}
+      </nav>
 
-      {/* Sidebar */}
-      <aside
-        className={`fixed left-0 top-0 h-full z-40 transition-all duration-300 border-r border-slate-200 bg-white ${
-          collapsed ? 'w-16 md:w-16' : 'w-64 md:w-64'
-        } ${!collapsed && 'shadow-lg'}`}
-      >
-        <div className="flex items-center justify-between h-16 px-4 border-b border-slate-100">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-navy flex items-center justify-center text-gold font-bold">
-              CA
-            </div>
-            {!collapsed && (
-              <span className="font-bold text-lg tracking-tight text-navy">Crestfield</span>
-            )}
+      <div className="border-t border-slate-100 p-4">
+        <button
+          type="button"
+          onClick={logout}
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-navy transition-colors hover:bg-slate-50"
+        >
+          <LogOut size={18} aria-hidden="true" />
+          Sign out
+        </button>
+      </div>
+    </>
+  );
+}
+
+export default function Sidebar({ role, mobileOpen, onMobileClose }: SidebarProps) {
+  const [activeId, setActiveId] = useState('overview');
+
+  // Highlight the section currently in view.
+  useEffect(() => {
+    const sections = SIDEBAR_SECTIONS[role] ?? [];
+    const elements = sections
+      .map((section) => document.getElementById(section.id))
+      .filter((element): element is HTMLElement => element !== null);
+
+    if (elements.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+        if (visible[0]) setActiveId(visible[0].target.id);
+      },
+      { rootMargin: '-96px 0px -55% 0px', threshold: [0.05, 0.25, 0.5] },
+    );
+
+    elements.forEach((element) => observer.observe(element));
+    return () => observer.disconnect();
+  }, [role]);
+
+  // Lock body scroll while the mobile drawer is open.
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previous;
+    };
+  }, [mobileOpen]);
+
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') onMobileClose();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [mobileOpen, onMobileClose]);
+
+  return (
+    <>
+      {/* Desktop sidebar */}
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-64 flex-col border-r border-slate-200 bg-white md:flex">
+        <div className="flex h-16 items-center gap-2 border-b border-slate-100 px-4">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-bold text-gold">
+            CA
           </div>
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="p-2 text-navy hover:text-navy/90 md:hidden"
-            aria-label="Toggle sidebar"
-          >
-            {collapsed ? <ChevronRight size={20} /> : <X size={20} />}
-          </button>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className="p-2 text-navy hover:text-navy/90 md:hidden"
-            aria-label="Open menu"
-          >
-            <Menu size={20} />
-          </button>
+          <span className="font-poppins text-base font-bold tracking-tight text-navy">Crestfield</span>
         </div>
-
-        <nav className="py-4 space-y-1">
-          {items.map((item) => {
-            const isActive = currentPath === item.href || currentPath.startsWith(item.href + '/');
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                  isActive
-                    ? 'bg-navy/10 text-navy border-r-2 border-navy'
-                    : 'text-slate-600 hover:bg-slate-50 hover:text-navy'
-                }`}
-              >
-                <item.icon className={`w-5 h-5 ${isActive ? 'text-navy' : 'text-slate-400'}`} />
-                {!collapsed && item.label}
-              </Link>
-            );
-          })}
-        </nav>
-
-        <div className="absolute bottom-0 w-full p-4 border-t border-slate-100">
-          <button
-            onClick={logout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-navy hover:bg-slate-50 rounded-lg transition-colors"
-          >
-            <LogOut size={18} />
-            {!collapsed && 'Sign out'}
-          </button>
-        </div>
+        <SidebarBody role={role} activeId={activeId} onNavigate={() => {}} />
       </aside>
 
       {/* Mobile drawer */}
       {mobileOpen && (
-        <div className="fixed left-0 top-0 h-full z-50 w-64 bg-white border-r border-slate-200 transform transition-transform duration-300">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-slate-100">
-            <span className="font-bold text-lg tracking-tight text-navy">Crestfield Academy</span>
-            <button
-              onClick={() => setMobileOpen(false)}
-              className="p-2 text-navy hover:text-navy/90"
-            >
-              <X size={20} />
-            </button>
-          </div>
-          <nav className="py-4 space-y-1 px-4">
-            {items.map((item) => {
-              const isActive = currentPath === item.href || currentPath.startsWith(item.href + '/');
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-colors ${
-                    isActive
-                      ? 'bg-navy/10 text-navy border-r-2 border-navy'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-navy'
-                  }`}
-                >
-                  <item.icon className={`w-5 h-5 ${isActive ? 'text-navy' : 'text-slate-400'}`} />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-          <div className="p-4 border-t border-slate-100">
-            <button
-              onClick={() => {
-                setMobileOpen(false);
-                logout();
-              }}
-              className="w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-navy hover:bg-slate-50 rounded-lg transition-colors"
-            >
-              <LogOut size={18} /> Sign out
-            </button>
-          </div>
+        <div className="fixed inset-0 z-50 md:hidden">
+          <button
+            type="button"
+            aria-label="Close navigation menu"
+            onClick={onMobileClose}
+            className="absolute inset-0 h-full w-full cursor-default bg-navy/50"
+          />
+          <aside
+            id="dashboard-navigation"
+            aria-label="Dashboard sections"
+            className="absolute inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white shadow-xl"
+          >
+            <div className="flex h-16 items-center justify-between border-b border-slate-100 px-4">
+              <div className="flex items-center gap-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-navy font-bold text-gold">
+                  CA
+                </div>
+                <span className="font-poppins text-base font-bold tracking-tight text-navy">
+                  Crestfield
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={onMobileClose}
+                aria-label="Close navigation menu"
+                className="rounded-lg p-1.5 text-slate-500 transition-colors hover:bg-slate-100 hover:text-navy"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <SidebarBody role={role} activeId={activeId} onNavigate={onMobileClose} />
+          </aside>
         </div>
       )}
     </>

@@ -1,111 +1,185 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { Search, Filter, Plus } from 'lucide-react';
+import { useId, useMemo, useState, type ReactNode } from 'react';
+import { Search } from 'lucide-react';
 
-type DataTableProps<T> = {
-  columns: { key: string; label: string; format?: (val: any) => string }[];
-  data: T[];
-  searchableKeys?: (keyof T)[];
-  emptyMessage?: string;
-  actions?: (item: T) => React.ReactNode;
+export type Column<T> = {
+  key: keyof T & string;
+  label: string;
+  render?: (item: T) => ReactNode;
+  format?: (value: T[keyof T], item: T) => ReactNode;
+  align?: 'left' | 'right' | 'center';
 };
 
-export default function DataTable<T extends Record<string, any>>({
+export type TableFilter = {
+  id: string;
+  label: string;
+  options: { value: string; label: string }[];
+  value: string;
+  onChange: (value: string) => void;
+};
+
+type DataTableProps<T> = {
+  columns: Column<T>[];
+  data: T[];
+  searchableKeys?: (keyof T & string)[];
+  searchPlaceholder?: string;
+  emptyMessage?: string;
+  caption: string;
+  rowActions?: (item: T) => ReactNode;
+  filters?: TableFilter[];
+  getRowKey?: (item: T, index: number) => string;
+};
+
+const ALIGN = {
+  left: 'text-left',
+  right: 'text-right',
+  center: 'text-center',
+} as const;
+
+export default function DataTable<T>({
   columns,
   data,
   searchableKeys,
+  searchPlaceholder = 'Search...',
   emptyMessage = 'No records found.',
-  actions,
+  caption,
+  rowActions,
+  filters,
+  getRowKey,
 }: DataTableProps<T>) {
   const [search, setSearch] = useState('');
-  const [filterValue, setFilterValue] = useState('');
+  const searchId = useId();
+  const filterIds = useId();
 
   const filteredData = useMemo(() => {
-    return data.filter((item) => {
-      const matchesSearch =
-        !search ||
-        (searchableKeys?.some((key) => {
-          const val = item[key];
-          return val != null && String(val).toLowerCase().includes(search.toLowerCase());
-        }) ?? true);
-      const matchesFilter =
-        !filterValue ||
-        Object.values(item).some((val) =>
-          val != null && String(val).toLowerCase().includes(filterValue.toLowerCase())
-        );
-      return matchesSearch && matchesFilter;
-    });
-  }, [data, search, filterValue, searchableKeys]);
+    const term = search.trim().toLowerCase();
+    if (!term) return data;
+    const keys = searchableKeys ?? (Object.keys(data[0] ?? {}) as (keyof T & string)[]);
+    return data.filter((item) =>
+      keys.some((key) => {
+        const value = item[key];
+        return value != null && String(value).toLowerCase().includes(term);
+      }),
+    );
+  }, [data, search, searchableKeys]);
+
+  const keyFor = (item: T, index: number) => {
+    if (getRowKey) return getRowKey(item, index);
+    const id = (item as { id?: unknown }).id;
+    return typeof id === 'string' ? id : `row-${index}`;
+  };
 
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      <div className="p-6 border-b border-slate-100 flex flex-col md:flex-row md:items-center gap-4">
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <Search className="w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="w-full md:w-64 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-navy focus:outline-none"
-            autoComplete="off"
-          />
+    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+      {(searchableKeys || filters) && (
+        <div className="flex flex-col gap-4 border-b border-slate-100 p-4 lg:flex-row lg:items-end lg:justify-between">
+          {searchableKeys ? (
+            <search className="w-full lg:max-w-xs">
+              <label htmlFor={searchId} className="sr-only">
+                {searchPlaceholder}
+              </label>
+              <div className="relative">
+                <Search
+                  size={16}
+                  aria-hidden="true"
+                  className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+                />
+                <input
+                  id={searchId}
+                  name="q"
+                  type="search"
+                  value={search}
+                  onChange={(event) => setSearch(event.target.value)}
+                  placeholder={searchPlaceholder}
+                  autoComplete="off"
+                  className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm transition-colors focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                />
+              </div>
+            </search>
+          ) : (
+            <div />
+          )}
+
+          {filters && filters.length > 0 && (
+            <div className="flex flex-wrap gap-4">
+              {filters.map((filter, index) => {
+                const id = `${filterIds}-${index}`;
+                return (
+                  <div key={filter.id} className="flex flex-col gap-1">
+                    <label htmlFor={id} className="text-xs font-semibold text-slate-500">
+                      {filter.label}
+                    </label>
+                    <select
+                      id={id}
+                      name={filter.id}
+                      value={filter.value}
+                      onChange={(event) => filter.onChange(event.target.value)}
+                      className="rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm transition-colors focus:border-navy focus:outline-none focus:ring-2 focus:ring-navy/20"
+                    >
+                      {filter.options.map((option) => (
+                        <option key={option.value} value={option.value}>
+                          {option.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
-        <div className="flex items-center gap-2 w-full md:w-auto">
-          <Filter className="w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Filter..."
-            value={filterValue}
-            onChange={(e) => setFilterValue(e.target.value)}
-            className="w-full md:w-64 px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-gold focus:outline-none"
-            autoComplete="off"
-          />
-        </div>
-        {actions && (
-          <button className="ml-auto md:ml-0 bg-navy text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-navy/90 flex items-center gap-2 transition-colors">
-            <Plus size={16} /> Add
-          </button>
-        )}
-      </div>
+      )}
 
       <div className="overflow-x-auto">
         <table className="w-full text-left">
+          <caption className="sr-only">{caption}</caption>
           <thead>
-            <tr className="border-b border-slate-100">
-              {columns.map((col) => (
+            <tr className="border-b border-slate-100 bg-slate-50">
+              {columns.map((column) => (
                 <th
-                  key={col.key}
-                  className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50"
+                  key={column.key}
+                  scope="col"
+                  className={`px-6 py-3 text-xs font-semibold uppercase tracking-wider text-slate-500 ${ALIGN[column.align ?? 'left']}`}
                 >
-                  {col.label}
+                  {column.label}
                 </th>
               ))}
-              {actions && <th className="px-6 py-4 text-xs font-semibold text-slate-500 uppercase tracking-wider bg-slate-50">Actions</th>}
+              {rowActions && (
+                <th scope="col" className="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-slate-500">
+                  Actions
+                </th>
+              )}
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
             {filteredData.length === 0 ? (
               <tr>
                 <td
-                  colSpan={columns.length + (actions ? 1 : 0)}
+                  colSpan={columns.length + (rowActions ? 1 : 0)}
                   className="px-6 py-12 text-center text-slate-500"
                 >
                   {emptyMessage}
                 </td>
               </tr>
             ) : (
-              filteredData.map((item) => (
-                <tr key={item.id} className="hover:bg-slate-50 transition-colors">
-                  {columns.map((col) => (
-                    <td key={col.key} className="px-6 py-4 text-sm text-slate-600">
-                      {col.format ? col.format(item[col.key]) : String(item[col.key])}
+              filteredData.map((item, index) => (
+                <tr key={keyFor(item, index)} className="transition-colors hover:bg-slate-50">
+                  {columns.map((column) => (
+                    <td
+                      key={column.key}
+                      className={`px-6 py-4 text-sm text-slate-600 ${ALIGN[column.align ?? 'left']}`}
+                    >
+                      {column.render
+                        ? column.render(item)
+                        : column.format
+                          ? column.format(item[column.key], item)
+                          : String(item[column.key] ?? '')}
                     </td>
                   ))}
-                  {actions && (
-                    <td className="px-6 py-4">
-                      {actions(item)}
+                  {rowActions && (
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex justify-end gap-3">{rowActions(item)}</div>
                     </td>
                   )}
                 </tr>
@@ -116,9 +190,9 @@ export default function DataTable<T extends Record<string, any>>({
       </div>
 
       {filteredData.length === 0 && data.length > 0 && (
-        <div className="p-6 text-center text-slate-500 text-sm">
+        <p className="border-t border-slate-100 px-6 py-4 text-center text-sm text-slate-500">
           No records match your search or filter.
-        </div>
+        </p>
       )}
     </div>
   );

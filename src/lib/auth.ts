@@ -24,6 +24,17 @@ export function logout(): void {
   window.location.href = '/login';
 }
 
+/**
+ * The dashboard each role is allowed to see. Shared by the login redirect and
+ * the public navbar so a role never links to another role's portal.
+ */
+export const ROLE_HOME: Record<Role, string> = {
+  super_admin: '/dashboard/super-admin',
+  admin: '/dashboard/admin',
+  teacher: '/dashboard/teacher',
+  student: '/dashboard/student',
+};
+
 export function requireRole(allowedRoles: Role[]): void {
   const user = getCurrentUser();
   if (!user || !allowedRoles.includes(user.role)) {
