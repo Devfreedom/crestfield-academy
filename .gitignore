@@ -9,6 +9,7 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+!.AGENTS.md
 
 # testing
 /coverage
@@ -38,4 +39,7 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
-next-env.d.ts
+
+
+#agents files
+AGENTS.md
