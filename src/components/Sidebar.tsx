@@ -15,6 +15,7 @@ import {
   CreditCard,
   Megaphone,
   Paperclip,
+  TrendingUp,
   X,
   type LucideIcon,
 } from 'lucide-react';
@@ -34,6 +35,7 @@ type Section = {
 const SIDEBAR_SECTIONS: Record<Role, Section[]> = {
   super_admin: [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
+    { id: 'analytics', label: 'Revenue & Enrollment', icon: TrendingUp },
     { id: 'users', label: 'Manage Users', icon: Users },
     { id: 'roles', label: 'Manage Roles', icon: Shield },
     { id: 'settings', label: 'Settings', icon: Settings },
