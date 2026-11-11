@@ -24,7 +24,7 @@ export const STUDENTS: Student[] = [
     section: 'A',
     gender: 'Female',
     attendance: 94,
-    feesOwed: 0,
+    feesOwed: 350000,
     status: 'Active',
   },
   {
@@ -144,7 +144,7 @@ export const CLASSES: Class[] = [
 ];
 
 export const FEES: Fee[] = [
-  { id: 'f1', studentId: 's1', term: 'Second Term', session: '2024/2025', amount: 950000, paid: 950000, dueDate: '2025-02-15', status: 'Paid' },
+  { id: 'f1', studentId: 's1', term: 'Second Term', session: '2024/2025', amount: 950000, paid: 600000, dueDate: '2025-02-15', status: 'Partial' },
   { id: 'f2', studentId: 's2', term: 'Second Term', session: '2024/2025', amount: 950000, paid: 800000, dueDate: '2025-02-15', status: 'Partial' },
   { id: 'f3', studentId: 's3', term: 'Second Term', session: '2024/2025', amount: 850000, paid: 850000, dueDate: '2025-02-15', status: 'Paid' },
   { id: 'f4', studentId: 's4', term: 'Second Term', session: '2024/2025', amount: 850000, paid: 530000, dueDate: '2025-02-15', status: 'Partial' },
@@ -242,7 +242,7 @@ export const TIMETABLE: TimetableEntry[] = [
 ];
 
 export const RECEIPTS: Receipt[] = [
-  { id: 'r1', studentId: 's1', amount: 950000, date: '2025-02-10', term: 'Second Term', session: '2024/2025' },
+  { id: 'r1', studentId: 's1', amount: 600000, date: '2025-02-10', term: 'Second Term', session: '2024/2025' },
   { id: 'r2', studentId: 's3', amount: 850000, date: '2025-02-08', term: 'Second Term', session: '2024/2025' },
   { id: 'r3', studentId: 's5', amount: 850000, date: '2025-02-09', term: 'Second Term', session: '2024/2025' },
   { id: 'r4', studentId: 's7', amount: 950000, date: '2025-02-11', term: 'Second Term', session: '2024/2025' },

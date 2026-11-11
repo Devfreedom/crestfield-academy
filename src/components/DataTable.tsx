@@ -58,7 +58,8 @@ export default function DataTable<T>({
     let rows = data;
 
     for (const filter of filters ?? []) {
-      if (!filter.matches || !filter.value) continue;
+      // An empty value or the conventional "all" option means "no narrowing".
+      if (!filter.matches || !filter.value || filter.value === 'all') continue;
       rows = rows.filter((item) => filter.matches!(item, filter.value));
     }
 
