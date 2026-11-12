@@ -15,7 +15,7 @@ import { ArrowRight } from 'lucide-react';
  */
 export default function HomeHero() {
   return (
-    <section className="relative isolate flex min-h-[30rem] items-center overflow-hidden bg-navy lg:min-h-[36rem]">
+    <section className="relative isolate flex min-h-[36rem] items-center overflow-hidden bg-navy lg:min-h-[44rem]">
       <Image
         src="/images/hero-students.jpg"
         alt="Students in navy-blue school uniforms outside a school building on a bright day"
@@ -27,7 +27,10 @@ export default function HomeHero() {
         preload
         fetchPriority="high"
         sizes="100vw"
-        className="object-cover"
+        /* Slow 8s settle from scale 1.08 → 1. The origin matches the
+           object-position crop focus so faces stay anchored; transform-only,
+           so it never causes layout shift. Reduced motion disables it. */
+        className="origin-[50%_20%] object-cover object-[center_20%] animate-[hero-zoom_8s_ease-out_both]"
       />
 
       {/* Readability overlay: strong on the left where the copy sits, lighter
@@ -52,29 +55,36 @@ export default function HomeHero() {
 
       <div className="relative mx-auto w-full max-w-7xl px-6 py-20 lg:py-28">
         <div className="max-w-3xl">
-          <span className="mb-6 inline-block rounded-full bg-gold px-4 py-1.5 text-sm font-bold text-navy">
+          <span
+            className="mb-6 inline-block animate-[fade-up_0.6s_ease-out_both] rounded-full bg-gold px-4 py-1.5 text-sm font-bold text-navy"
+          >
             Admissions Open for 2025/2026 Session
           </span>
 
-          <h1 className="mb-6 font-poppins text-4xl font-bold leading-tight text-white lg:text-6xl">
+          <h1 className="mb-6 animate-[fade-up_0.6s_ease-out_both] font-poppins text-4xl font-bold leading-tight text-white [animation-delay:100ms] lg:text-6xl">
             Where Character Meets Excellence
           </h1>
 
-          <p className="mb-8 max-w-2xl text-lg leading-relaxed text-slate-200 lg:text-xl">
+          <p className="mb-8 max-w-2xl animate-[fade-up_0.6s_ease-out_both] text-lg leading-relaxed text-slate-200 [animation-delay:200ms] lg:text-xl">
             Crestfield Academy offers a world-class British-Nigerian curriculum from JSS1 to SS3,
             nurturing future leaders with integrity, discipline, and academic excellence in Abuja.
           </p>
 
-          <div className="flex flex-col gap-4 sm:flex-row">
+          <div className="flex flex-col gap-4 animate-[fade-up_0.6s_ease-out_both] sm:flex-row [animation-delay:300ms]">
             <Link
               href="/admissions"
-              className="flex items-center justify-center gap-2 rounded-lg bg-gold px-8 py-4 text-lg font-bold text-navy transition-colors hover:bg-gold/90"
+              className="group flex items-center justify-center gap-2 rounded-lg bg-gold px-8 py-4 text-lg font-bold text-navy transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg hover:brightness-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:translate-y-0"
             >
-              Apply Now <ArrowRight size={20} aria-hidden="true" />
+              Apply Now{' '}
+              <ArrowRight
+                size={20}
+                aria-hidden="true"
+                className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+              />
             </Link>
             <Link
               href="/academics"
-              className="flex items-center justify-center gap-2 rounded-lg border-2 border-white bg-transparent px-8 py-4 text-lg font-bold text-white transition-colors hover:bg-white/10"
+              className="flex items-center justify-center gap-2 rounded-lg border-2 border-white bg-transparent px-8 py-4 text-lg font-bold text-white transition-all duration-200 ease-out hover:border-gold hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
             >
               Explore Academics
             </Link>

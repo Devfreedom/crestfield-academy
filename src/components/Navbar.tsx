@@ -23,7 +23,7 @@ export default function Navbar() {
   const menuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 8);
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -61,8 +61,8 @@ export default function Navbar() {
 
   return (
     <header
-      className={`sticky top-0 z-50 border-b border-slate-200 bg-white transition-shadow ${
-        scrolled ? 'shadow-sm' : ''
+      className={`sticky top-0 z-50 border-b border-slate-200 transition-[background-color,box-shadow] duration-200 ease-out ${
+        scrolled ? 'bg-white/95 shadow-md backdrop-blur-md' : 'bg-white'
       }`}
     >
       <div className="mx-auto w-full max-w-7xl px-6">
@@ -85,7 +85,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={isCurrent(link.href) ? 'page' : undefined}
-                className={`text-sm font-medium transition-colors hover:text-navy ${
+                className={`relative text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gold after:content-[''] after:transition-all after:duration-200 after:ease-out hover:after:w-full hover:text-navy ${
                   isCurrent(link.href) ? 'text-navy' : 'text-slate-600'
                 }`}
               >
@@ -114,7 +114,7 @@ export default function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="rounded-lg bg-navy px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-navy/90"
+                className="rounded-lg bg-navy px-5 py-2 text-sm font-medium text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-navy/90 hover:shadow-lg active:translate-y-0"
               >
                 Login
               </Link>

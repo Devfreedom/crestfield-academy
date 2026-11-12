@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen } from 'lucide-react';
 import HomeHero from '@/components/HomeHero';
 import AtAGlancePanel from '@/components/AtAGlancePanel';
+import Reveal from '@/components/Reveal';
 import { NEWS_ITEMS } from '@/lib/data';
 
 const STATS = [

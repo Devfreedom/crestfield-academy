@@ -44,6 +44,12 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   cacheComponents: true,
   partialPrefetching: true,
+  // No external images, ever: an empty remotePatterns list refuses remote
+  // image optimization (and the CSP's img-src 'self' blocks them at the
+  // browser level too). All images must be local files in /public.
+  images: {
+    remotePatterns: [],
+  },
   turbopack: {
     rules: {
       "*.css": {

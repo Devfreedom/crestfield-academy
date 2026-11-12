@@ -417,13 +417,65 @@ nav.site-menu {
   border-width: 0;
 }
 
+/* ---------------------------------------------------------------------------
+   Landing-page motion — premium but cheap: everything animates opacity or
+   transform-ish properties (translate/scale) only, so it stays on the
+   compositor (MWG "motion" guidance). The global
+   prefers-reduced-motion: reduce override at the bottom of this file turns
+   all of it off completely; elements then render in their final static state.
+   --------------------------------------------------------------------------- */
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Slow settle on the hero photograph. The transform origin matches the
+   object-position crop focus (center 20%), so the students' faces stay
+   anchored while the frame widens — heads never drift toward the crop edge.
+   Applied only to the hero <Image>, never to the text or scrims. */
+@keyframes hero-zoom {
+  from {
+    scale: 1.08;
+  }
+  to {
+    scale: 1;
+  }
+}
+
+/* Scroll reveal for card grids. The hidden state is applied only when
+   scripting is enabled, so visitors without JavaScript always see the
+   content, and only when motion is welcome (no-preference). */
+.reveal {
+  transition:
+    opacity 0.5s ease-out,
+    translate 0.5s ease-out;
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@media (prefers-reduced-motion: no-preference) and (scripting: enabled) {
+  .reveal:not(.is-revealed) {
+    opacity: 0;
+    translate: 0 1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+    animation: none !important;
+    transition: none !important;
     scroll-behavior: auto !important;
   }
 }
