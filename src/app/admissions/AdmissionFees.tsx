@@ -1,8 +1,8 @@
 import { formatCurrency } from '@/lib/utils';
 
 const FEES = [
-  { level: 'Junior Secondary', day: 850000, boarding: 1450000 },
-  { level: 'Senior Secondary', day: 950000, boarding: 1600000 },
+  { level: 'Junior Secondary', day: 425000, boarding: 725000 },
+  { level: 'Senior Secondary', day: 475000, boarding: 800000 },
 ];
 
 export default function AdmissionFees() {
@@ -17,25 +17,29 @@ export default function AdmissionFees() {
         </div>
 
         <div className="mx-auto max-w-3xl overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-          <table className="w-full text-left">
-            <caption className="sr-only">School fees by level and mode of attendance</caption>
-            <thead>
-              <tr className="bg-navy text-white">
-                <th scope="col" className="px-6 py-4 text-left">Level</th>
-                <th scope="col" className="px-6 py-4 text-right">Day</th>
-                <th scope="col" className="px-6 py-4 text-right">Boarding</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-100">
-              {FEES.map((fee) => (
-                <tr key={fee.level} className="transition-colors hover:bg-slate-50">
-                  <th scope="row" className="px-6 py-4 font-medium text-slate-700">{fee.level}</th>
-                  <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.day)}</td>
-                  <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.boarding)}</td>
+          {/* The fee table scrolls horizontally on narrow screens — never a
+              stacked-card layout (per AGENTS.md). */}
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <caption className="sr-only">School fees by level and mode of attendance</caption>
+              <thead>
+                <tr className="bg-navy text-white">
+                  <th scope="col" className="px-6 py-4 text-left">Level</th>
+                  <th scope="col" className="px-6 py-4 text-right">Day</th>
+                  <th scope="col" className="px-6 py-4 text-right">Boarding</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {FEES.map((fee) => (
+                  <tr key={fee.level} className="transition-colors hover:bg-slate-50">
+                    <th scope="row" className="px-6 py-4 font-medium text-slate-700">{fee.level}</th>
+                    <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.day)}</td>
+                    <td className="px-6 py-4 text-right text-slate-600">{formatCurrency(fee.boarding)}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="border-t border-slate-100 bg-slate-50 px-6 py-4">
             <p className="text-sm text-slate-500">
               Fees include tuition, textbooks, and examination fees. Boarding fees include
