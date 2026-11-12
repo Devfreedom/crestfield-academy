@@ -203,7 +203,7 @@ export default function Login() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center bg-navy">
+        <div className="flex min-h-dvh items-center justify-center bg-navy">
           <p className="text-sm text-slate-300">Loading sign in&hellip;</p>
         </div>
       }

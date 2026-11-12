@@ -142,7 +142,15 @@ export default function DataTable<T>({
         </div>
       )}
 
-      <div className="overflow-x-auto">
+      {/* The table scrolls horizontally on narrow screens (per AGENTS.md), so
+          the scroll container needs to be reachable and scrollable with the
+          keyboard alone: a focusable region with an accessible name. */}
+      <div
+        tabIndex={0}
+        role="region"
+        aria-label={`${caption} (scrollable table)`}
+        className="overflow-x-auto"
+      >
         <table className="w-full text-left">
           <caption className="sr-only">{caption}</caption>
           <thead>

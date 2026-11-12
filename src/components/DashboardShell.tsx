@@ -37,19 +37,9 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
 
   const authorised = ready && user !== null && allowedRoles.includes(user.role);
 
-  // Lock background scroll while the mobile drawer is open.
-  useEffect(() => {
-    if (!mobileNavOpen) return;
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [mobileNavOpen]);
-
   if (!ready || !authorised) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-slate-50">
+      <div className="flex min-h-dvh items-center justify-center bg-slate-50">
         <p className="flex items-center gap-3 text-sm font-medium text-slate-500">
           <ShieldCheck size={18} aria-hidden="true" />
           Checking your access&hellip;
@@ -63,14 +53,14 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
   );
 
   return (
-    <div className="min-h-screen bg-slate-50 md:pl-64">
+    <div className="min-h-dvh bg-slate-50 md:pl-64">
       <Sidebar
         role={user.role}
         mobileOpen={mobileNavOpen}
         onMobileClose={() => setMobileNavOpen(false)}
       />
 
-      <div className="flex min-h-screen flex-col">
+      <div className="flex min-h-dvh flex-col">
         <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between border-b border-slate-200 bg-white px-4 lg:px-8">
           <div className="flex items-center gap-4">
             <button
