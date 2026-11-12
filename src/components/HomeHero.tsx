@@ -36,6 +36,14 @@ export default function HomeHero() {
         aria-hidden="true"
         className="absolute inset-0 bg-[linear-gradient(to_right,rgba(11,31,75,0.85)_0%,rgba(11,31,75,0.65)_45%,rgba(11,31,75,0.35)_100%)]"
       />
+      {/* Vertical scrim over the text band. The horizontal gradient alone is
+          not enough: the bright sky and school wall behind the headline
+          would drop white text below the WCAG contrast minimum. This layer
+          darkens the upper band where the copy sits and fades out below. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(11,31,75,0.6)_0%,rgba(11,31,75,0.5)_40%,rgba(11,31,75,0.15)_72%,rgba(11,31,75,0)_100%)]"
+      />
       {/* Bottom fade so the next section blends into the photograph. */}
       <div
         aria-hidden="true"
