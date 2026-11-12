@@ -9,6 +9,8 @@ type PasswordInputProps = {
   autoComplete: string;
   value: string;
   onChange: (value: string) => void;
+  /** Overrides the generated id (tests target the stable #password id). */
+  id?: string;
   minLength?: number;
   required?: boolean;
 };
@@ -23,10 +25,12 @@ export default function PasswordInput({
   autoComplete,
   value,
   onChange,
+  id: idProp,
   minLength,
   required = true,
 }: PasswordInputProps) {
-  const id = useId();
+  const generatedId = useId();
+  const id = idProp ?? generatedId;
   const [visible, setVisible] = useState(false);
 
   return (

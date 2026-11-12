@@ -15,7 +15,7 @@ import {
  * hydration mismatch. Snapshots are cached by the raw JSON string so the
  * identity stays stable between renders.
  */
-export function usePendingRequests(): { requests: PendingRequest[]; ready: boolean } {
+export function usePendingRequests(): { requests: PendingRequest[] } {
   const snapshot = useSyncExternalStore(
     subscribe,
     () => {
@@ -34,12 +34,11 @@ export function usePendingRequests(): { requests: PendingRequest[]; ready: boole
   return snapshot;
 }
 
-const EMPTY: Snapshot = { raw: '[]', requests: [], ready: false };
+const EMPTY: Snapshot = { raw: '[]', requests: [] };
 
 type Snapshot = {
   raw: string;
   requests: PendingRequest[];
-  ready: boolean;
 };
 
-let cache: Snapshot = { raw: '', requests: [], ready: false };
+let cache: Snapshot = { raw: '', requests: [] };

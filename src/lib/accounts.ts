@@ -76,7 +76,8 @@ function readAccounts(): RegisteredAccount[] {
   return readStore<RegisteredAccount>(ACCOUNTS_KEY);
 }
 
-function subscribe(callback: () => void): () => void {
+/** Subscribes to changes in either store, in this tab or another. */
+export function subscribe(callback: () => void): () => void {
   const handleStorage = (event: StorageEvent) => {
     if (event.key === PENDING_REQUESTS_KEY || event.key === ACCOUNTS_KEY || event.key === null) {
       callback();

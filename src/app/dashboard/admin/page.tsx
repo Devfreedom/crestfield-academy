@@ -1,6 +1,7 @@
 'use client';
 
 import DashboardShell from '@/components/DashboardShell';
+import PendingRequestsSection from '@/components/PendingRequestsSection';
 import OverviewSection from './OverviewSection';
 import StudentsSection from './StudentsSection';
 import ClassesSection from './ClassesSection';
@@ -24,6 +25,7 @@ export default function AdminDashboard() {
 
         <StudentsSection />
         <ClassesSection />
+        <PendingRequestsSection />
         <FeesSection />
         <AnnouncementsSection />
         <ReportsSection />

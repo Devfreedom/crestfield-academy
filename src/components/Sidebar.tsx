@@ -16,6 +16,7 @@ import {
   Megaphone,
   Paperclip,
   TrendingUp,
+  UserCheck,
   X,
   type LucideIcon,
 } from 'lucide-react';
@@ -38,12 +39,14 @@ const SIDEBAR_SECTIONS: Record<Role, Section[]> = {
     { id: 'analytics', label: 'Revenue & Enrollment', icon: TrendingUp },
     { id: 'users', label: 'Manage Users', icon: Users },
     { id: 'roles', label: 'Manage Roles', icon: Shield },
+    { id: 'pending-requests', label: 'Account Requests', icon: UserCheck },
     { id: 'settings', label: 'Settings', icon: Settings },
   ],
   admin: [
     { id: 'overview', label: 'Overview', icon: LayoutDashboard },
     { id: 'students', label: 'Students', icon: Users },
     { id: 'classes', label: 'Classes & Timetable', icon: GraduationCap },
+    { id: 'pending-requests', label: 'Account Requests', icon: UserCheck },
     { id: 'fees', label: 'Fees', icon: CreditCard },
     { id: 'announcements', label: 'Announcements', icon: Megaphone },
     { id: 'reports', label: 'Reports', icon: BarChart3 },

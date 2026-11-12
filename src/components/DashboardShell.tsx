@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Bell, LogOut, Menu, ShieldCheck } from 'lucide-react';
+import { Bell, Menu, ShieldCheck } from 'lucide-react';
 import Sidebar from './Sidebar';
 import Modal from './Modal';
+import AvatarMenu from './AvatarMenu';
 import { useCurrentUser } from '@/lib/useAuth';
-import { logout, requireRole, type Role } from '@/lib/auth';
+import { requireRole, type Role } from '@/lib/auth';
 import { ANNOUNCEMENTS } from '@/lib/data';
 import { formatDate } from '@/lib/utils';
 
@@ -92,26 +93,7 @@ export default function DashboardShell({ allowedRoles, children }: DashboardShel
               )}
             </button>
 
-            <div className="flex items-center gap-3 border-l border-slate-200 pl-2 sm:pl-4">
-              <div className="hidden flex-col items-end md:flex">
-                <p className="text-sm font-medium text-navy">{user.name}</p>
-                <p className="text-xs text-slate-500">{ROLE_LABEL[user.role]}</p>
-              </div>
-              <div
-                aria-hidden="true"
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-navy text-sm font-medium text-white"
-              >
-                {user.name.charAt(0)}
-              </div>
-              <button
-                type="button"
-                onClick={logout}
-                aria-label="Sign out"
-                className="rounded-lg p-2 text-slate-600 transition-colors hover:bg-slate-100 hover:text-navy md:hidden"
-              >
-                <LogOut size={20} aria-hidden="true" />
-              </button>
-            </div>
+            <AvatarMenu name={user.name} roleLabel={ROLE_LABEL[user.role]} />
           </div>
         </header>
 

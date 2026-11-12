@@ -123,6 +123,7 @@ export default function LoginForm({
       <PasswordInput
         label="Password"
         name="password"
+        id="password"
         autoComplete="current-password"
         value={password}
         onChange={onPasswordChange}

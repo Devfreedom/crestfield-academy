@@ -1,6 +1,7 @@
 'use client';
 
 import DashboardShell from '@/components/DashboardShell';
+import PendingRequestsSection from '@/components/PendingRequestsSection';
 import OverviewSection from './OverviewSection';
 import AnalyticsSection from './AnalyticsSection';
 import UsersSection from './UsersSection';
@@ -28,6 +29,7 @@ export default function SuperAdminDashboard() {
 
         <AnalyticsSection />
         <UsersSection />
+        <PendingRequestsSection />
         <RolesSection />
         <SettingsSection />
       </div>

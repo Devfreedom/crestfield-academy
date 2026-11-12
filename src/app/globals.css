@@ -307,6 +307,69 @@ nav.site-menu {
 }
 
 /* ---------------------------------------------------------------------------
+   Dashboard avatar dropdown — a native popover anchored under its trigger.
+   CSS anchor positioning places it when supported; AvatarMenu also exposes
+   --trigger-bottom / --trigger-right from the trigger's rect, which positions
+   it exactly below the trigger in browsers without anchor positioning.
+   Reference: Modern Web Guidance "menu".
+   --------------------------------------------------------------------------- */
+
+.popover-menu {
+  position: fixed;
+  inset: auto;
+  top: var(--trigger-bottom, auto);
+  right: var(--trigger-right, auto);
+  margin: 0;
+  padding: 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  background: #ffffff;
+  color: #0f172a;
+  min-width: 13rem;
+  max-width: calc(100vw - 1rem);
+  box-shadow: 0 10px 15px -3px rgb(15 23 42 / 0.15);
+  opacity: 0;
+  translate: 0 -0.25rem;
+  transition:
+    opacity 0.12s ease-out,
+    translate 0.12s ease-out,
+    display 0.12s allow-discrete,
+    overlay 0.12s allow-discrete;
+}
+
+.popover-menu:popover-open {
+  opacity: 1;
+  translate: 0 0;
+}
+
+@starting-style {
+  .popover-menu:popover-open {
+    opacity: 0;
+    translate: 0 -0.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popover-menu {
+    opacity: 1;
+    translate: none;
+    transition: none;
+  }
+}
+
+/* Anchor the menu under its trigger (bottom-right edge) when the browser
+   supports anchor positioning; the JS fallback above already positions it. */
+@supports (position-area: block-end) and (anchor-name: --a) {
+  .popover-menu {
+    top: auto;
+    right: auto;
+    position-area: block-end span-inline-end;
+    position-try-fallbacks: flip-block, flip-inline;
+  }
+}
+
+
+/* ---------------------------------------------------------------------------
    Container queries — dashboard cards adapt to their own available width
    rather than the viewport.
    Reference: Modern Web Guidance "css-layout" §4 / "card".
