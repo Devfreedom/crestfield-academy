@@ -8,11 +8,15 @@ import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import DemoAccounts from './DemoAccounts';
 
+type AuthCardProps = {
+  showDemo?: boolean;
+};
+
 /**
  * The sign-in / register card. Both tabs live on this page and switch without
- * a reload; the demo-account cards below the card fill the login form.
+ * a reload; the demo-account cards below the card fill the login form when enabled.
  */
-export default function AuthCard() {
+export default function AuthCard({ showDemo = false }: AuthCardProps) {
   const [activeTab, setActiveTab] = useState<AuthTabId>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -52,7 +56,7 @@ export default function AuthCard() {
         </div>
       </div>
 
-      <DemoAccounts onFill={fillDemo} />
+      {showDemo && <DemoAccounts onFill={fillDemo} />}
 
       <Link
         href="/"

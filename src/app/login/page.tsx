@@ -14,6 +14,7 @@ import { useCurrentUser } from '@/lib/useAuth';
 function LoginContent() {
   const searchParams = useSearchParams();
   const accessError = searchParams.get('error') === 'access-denied';
+  const showDemo = searchParams.get('demo') === '1';
   const { user } = useCurrentUser();
 
   return (
@@ -59,7 +60,7 @@ function LoginContent() {
         </div>
       )}
 
-      <AuthCard />
+      <AuthCard showDemo={showDemo} />
     </div>
   );
 }
