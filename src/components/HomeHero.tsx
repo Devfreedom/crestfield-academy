@@ -15,7 +15,7 @@ import { ArrowRight } from 'lucide-react';
  */
 export default function HomeHero() {
   return (
-    <section className="relative isolate flex min-h-[36rem] items-center overflow-hidden bg-navy lg:min-h-[44rem]">
+    <section className="relative isolate flex min-h-[540px] items-center overflow-hidden bg-navy lg:min-h-[640px]">
       <Image
         src="/images/hero-students.jpg"
         alt="Students in navy-blue school uniforms outside a school building on a bright day"
