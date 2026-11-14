@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen } from 'lucide-react';
+import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen, Star } from 'lucide-react';
 import HomeHero from '@/components/HomeHero';
 import AtAGlancePanel from '@/components/AtAGlancePanel';
+import HomeCtaBanner from '@/components/HomeCtaBanner';
 import Reveal from '@/components/Reveal';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import { NEWS_ITEMS } from '@/lib/data';
@@ -55,11 +56,13 @@ const WHY_CRESTFIELD = [
 const TESTIMONIALS = [
   {
     name: 'Mrs. Folake Adebayo',
+    initials: 'FA',
     role: 'Parent of SS2 Student',
     text: 'Crestfield Academy has transformed my daughter\u2019s confidence and academic performance. The teachers truly care.',
   },
   {
     name: 'Mr. Chinedu Okafor',
+    initials: 'CO',
     role: 'Parent of JSS1 Student',
     text: 'Excellent discipline, strong values, and outstanding academics. We are proud to be part of the Crestfield family.',
   },
@@ -70,39 +73,48 @@ export default function Home() {
     <div className="flex flex-1 flex-col">
       <HomeHero />
 
-      <section className="bg-white py-16">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+      <section className="bg-[#F5F6F8] pb-12">
+        <div className="relative z-10 mx-auto -mt-8 max-w-7xl px-6">
+          <div className="grid grid-cols-2 gap-4 md:grid-cols-4 lg:gap-6">
             {STATS.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md"
+                className="rounded-xl border border-slate-200 border-t-4 border-t-[#C9A227] bg-white p-6 text-center shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md"
               >
-                <stat.icon className="mx-auto mb-3 h-8 w-8 text-gold" aria-hidden="true" />
-                <p className="font-poppins text-2xl font-bold text-navy">
+                <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-[#C9A227]/15 text-[#C9A227]">
+                  <stat.icon className="h-6 w-6" aria-hidden="true" />
+                </div>
+                <p className="font-poppins text-3xl font-bold text-[#0B1F4B] lg:text-4xl">
                   <AnimatedCounter target={stat.target} suffix={stat.suffix} />
                 </p>
-                <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
+                <p className="mt-1 text-sm font-medium text-slate-500">{stat.label}</p>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16">
+      <section className="bg-[#F5F6F8] py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
+            <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#C9A227]">
+              Why Choose Us
+            </p>
             <h2 className="mb-4 font-poppins text-3xl font-bold text-navy">Why Crestfield Academy?</h2>
             <p className="mx-auto max-w-2xl text-slate-600">
               A premium private secondary school committed to academic excellence and character formation.
             </p>
           </div>
-          <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {WHY_CRESTFIELD.map((feature, index) => (
               <Reveal key={feature.title} delayMs={index * 100}>
-                <div className="group h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gold/10 text-gold transition-transform duration-200 ease-out group-hover:scale-110">
-                    <feature.icon size={24} aria-hidden="true" />
+                <div className="group h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:border-[#C9A227]/50 hover:shadow-md">
+                  <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-lg bg-[#0B1F4B]/5 text-[#0B1F4B] transition-colors duration-200 ease-out group-hover:bg-[#C9A227]/20">
+                    <feature.icon
+                      size={22}
+                      aria-hidden="true"
+                      className="transition-transform duration-200 ease-out group-hover:scale-110"
+                    />
                   </div>
                   <h3 className="mb-2 font-poppins text-lg font-bold text-navy">{feature.title}</h3>
                   <p className="text-sm leading-relaxed text-slate-600">{feature.description}</p>
@@ -120,6 +132,9 @@ export default function Home() {
               <AtAGlancePanel />
             </div>
             <div className="lg:w-1/2">
+              <p className="mb-2 text-xs font-bold uppercase tracking-widest text-[#C9A227]">
+                British-Nigerian Curriculum
+              </p>
               <h2 className="mb-6 font-poppins text-3xl font-bold text-navy">Comprehensive Academics</h2>
               <p className="mb-6 leading-relaxed text-slate-600">
                 From JSS1 to SS3, we offer Science, Arts, and Commercial streams with expert teachers
@@ -146,7 +161,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-slate-50 py-16">
+      <section className="bg-[#F5F6F8] py-16">
         <div className="mx-auto max-w-7xl px-6">
           <div className="mb-12 text-center">
             <h2 className="mb-4 font-poppins text-3xl font-bold text-navy">News &amp; Events</h2>
@@ -158,13 +173,21 @@ export default function Home() {
             {NEWS_ITEMS.map((news) => (
               <article
                 key={news.id}
-                className="rounded-xl border border-slate-200 bg-white p-6 transition-shadow hover:shadow-md"
+                className="group flex flex-col justify-between rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md"
               >
-                <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-navy/70">
-                  {news.date}
-                </p>
-                <h3 className="mb-3 font-poppins text-lg font-bold text-navy">{news.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">{news.excerpt}</p>
+                <div>
+                  <span className="mb-3 inline-block rounded bg-[#0B1F4B]/5 px-2.5 py-1 text-xs font-semibold text-[#0B1F4B]">
+                    {news.date}
+                  </span>
+                  <h3 className="mb-3 font-poppins text-lg font-bold text-navy">{news.title}</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">{news.excerpt}</p>
+                </div>
+                <Link
+                  href={news.id === 'n1' ? '/admissions' : '/academics'}
+                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-[#0B1F4B] transition-colors group-hover:text-[#C9A227]"
+                >
+                  Read More <ArrowRight size={16} aria-hidden="true" />
+                </Link>
               </article>
             ))}
           </div>
@@ -180,12 +203,27 @@ export default function Home() {
             {TESTIMONIALS.map((testimonial) => (
               <figure
                 key={testimonial.name}
-                className="rounded-xl border border-slate-200 bg-slate-50 p-6"
+                className="rounded-xl border border-slate-200 bg-slate-50 p-6 shadow-sm"
               >
-                <blockquote className="mb-4 text-slate-600">&ldquo;{testimonial.text}&rdquo;</blockquote>
-                <figcaption>
-                  <p className="font-bold text-navy">{testimonial.name}</p>
-                  <p className="text-sm text-slate-500">{testimonial.role}</p>
+                <div className="mb-4 flex gap-1 text-[#C9A227]" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} size={16} fill="currentColor" aria-hidden="true" />
+                  ))}
+                </div>
+                <blockquote className="mb-5 leading-relaxed text-slate-600">
+                  &ldquo;{testimonial.text}&rdquo;
+                </blockquote>
+                <figcaption className="flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#0B1F4B] text-sm font-bold text-[#C9A227]"
+                  >
+                    {testimonial.initials}
+                  </span>
+                  <div>
+                    <p className="font-bold text-navy">{testimonial.name}</p>
+                    <p className="text-sm text-slate-500">{testimonial.role}</p>
+                  </div>
                 </figcaption>
               </figure>
             ))}
@@ -193,25 +231,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-navy py-20 text-white">
-        <div className="mx-auto max-w-7xl px-6 text-center">
-          <h2 className="mb-6 font-poppins text-3xl font-bold">Ready to Join Crestfield?</h2>
-          <p className="mx-auto mb-8 max-w-2xl text-slate-300">
-            Give your child the foundation for excellence. Applications are open for the 2025/2026 session.
-          </p>
-          <Link
-            href="/admissions"
-            className="group inline-flex items-center gap-2 rounded-lg bg-gold px-10 py-4 text-lg font-bold text-navy transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg hover:brightness-105 active:translate-y-0"
-          >
-            Start Application
-            <ArrowRight
-              size={20}
-              aria-hidden="true"
-              className="transition-transform duration-200 ease-out group-hover:translate-x-1"
-            />
-          </Link>
-        </div>
-      </section>
+      <HomeCtaBanner />
     </div>
   );
 }

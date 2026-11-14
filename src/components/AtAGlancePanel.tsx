@@ -14,10 +14,12 @@ const AT_A_GLANCE = [
 export default function AtAGlancePanel() {
   return (
     <div className="rounded-2xl border border-slate-200 bg-gradient-to-br from-navy to-[#162f63] p-8 text-white shadow-lg">
-      <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gold">
-        Crestfield at a glance
-      </p>
-      <h2 className="mb-6 font-poppins text-2xl font-bold">Comprehensive Academics</h2>
+      <div className="mb-6 border-l-4 border-[#C9A227] pl-4">
+        <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-gold">
+          Crestfield at a glance
+        </p>
+        <h2 className="font-poppins text-2xl font-bold text-white">Comprehensive Academics</h2>
+      </div>
       <ul className="space-y-4">
         {AT_A_GLANCE.map((item) => (
           <li

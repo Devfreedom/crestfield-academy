@@ -33,33 +33,26 @@ export default function HomeHero() {
         className="origin-[50%_20%] object-cover object-[center_20%] animate-[hero-zoom_8s_ease-out_forwards]"
       />
 
-      {/* Readability overlay: strong on the left where the copy sits, lighter
-          on the right so the photograph stays visible. */}
+      {/* Directional readability overlay: strong on the left where the copy sits,
+          opening up on the right so the students look vibrant and natural. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(11,31,75,0.85)_0%,rgba(11,31,75,0.65)_45%,rgba(11,31,75,0.35)_100%)]"
+        className="absolute inset-0 bg-[linear-gradient(to_right,rgba(11,31,75,0.92)_0%,rgba(11,31,75,0.78)_42%,rgba(11,31,75,0.20)_100%)]"
       />
-      {/* Vertical scrim over the text band. The horizontal gradient alone is
-          not enough: the bright sky and school wall behind the headline
-          would drop white text below the WCAG contrast minimum. This layer
-          darkens the upper band where the copy sits and fades out below. */}
+      {/* Bottom fade so the elevated stats strip blends cleanly. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[linear-gradient(to_bottom,rgba(11,31,75,0.6)_0%,rgba(11,31,75,0.5)_40%,rgba(11,31,75,0.15)_72%,rgba(11,31,75,0)_100%)]"
-      />
-      {/* Bottom fade so the next section blends into the photograph. */}
-      <div
-        aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 h-40 bg-[linear-gradient(to_top,rgba(11,31,75,0.9)_0%,rgba(11,31,75,0)_100%)]"
+        className="absolute inset-x-0 bottom-0 h-32 bg-[linear-gradient(to_top,rgba(11,31,75,0.85)_0%,rgba(11,31,75,0)_100%)]"
       />
 
       <div className="relative mx-auto w-full max-w-7xl px-6 py-20 lg:py-28">
         <div className="max-w-3xl">
           <span
-            className="mb-6 inline-block animate-[fade-up_0.6s_ease-out_both] rounded-full bg-gold px-4 py-1.5 text-sm font-bold text-navy"
+            className="mb-6 inline-flex animate-[fade-up_0.6s_ease-out_both] items-center gap-2 rounded-full border border-[#C9A227]/40 bg-[#0B1F4B]/60 px-4 py-1.5 text-sm font-semibold text-white backdrop-blur-sm"
             style={{ animationDelay: '0ms' }}
           >
-            Admissions Open for 2025/2026 Session
+            <span aria-hidden="true" className="h-2 w-2 rounded-full bg-[#C9A227]" />
+            Admissions Open for 2026/2027 Academic Session
           </span>
 
           <h1

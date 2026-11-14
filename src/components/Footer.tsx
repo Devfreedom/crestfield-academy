@@ -28,7 +28,7 @@ const CONTACT = [
 
 export default function Footer({ year }: FooterProps) {
   return (
-    <footer className="border-t border-white/10 bg-navy text-white">
+    <footer className="border-t border-white/15 bg-navy text-white">
       <div className="mx-auto max-w-7xl px-6 pt-12 pb-8">
         <div className="mb-12 grid grid-cols-1 gap-12 md:grid-cols-4">
           <div>

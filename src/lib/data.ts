@@ -292,9 +292,9 @@ export const RESOURCES: Resource[] = [
 ];
 
 export const NEWS_ITEMS: NewsItem[] = [
-  { id: 'n1', title: 'WAEC Registration Now Open', date: 'November 8, 2025', excerpt: 'SS3 students can now register for the 2025 WAEC examinations. Deadline: November 30.' },
-  { id: 'n2', title: 'Mid-Term Break Announcement', date: 'November 10, 2025', excerpt: 'School will be closed from November 15-17 for mid-term break. Classes resume Monday, November 18.' },
-  { id: 'n3', title: 'Science Fair 2025', date: 'October 25, 2025', excerpt: 'Our annual science fair showcased innovative student projects in robotics, chemistry, and environmental science.' },
+  { id: 'n1', title: 'WAEC Registration Now Open', date: 'Nov 8, 2026', excerpt: 'SS3 students can now register for the 2026 WAEC examinations. Deadline: November 30.' },
+  { id: 'n2', title: 'Mid-Term Break Announcement', date: 'Nov 1, 2026', excerpt: 'School will be closed from November 15-17 for mid-term break. Classes resume Monday, November 18.' },
+  { id: 'n3', title: 'Science Fair 2026', date: 'Oct 20, 2026', excerpt: 'Our annual science fair showcased innovative student projects in robotics, chemistry, and environmental science.' },
 ];
 
 export const REVENUE_BY_TERM = [
