@@ -22,3 +22,4 @@
 - Before running `git add`, check `git status` and ensure `.env*` or secret files are never staged.
 - Run `git add` on the modified files and commit with a clear Conventional Commit message (e.g., `feat: add login form validation` or `fix: resolve navbar hydration mismatch`).
 - NEVER run `git push`, `git reset --hard`, or force-push commands automatically; leave pushing to the user.
+- When running Git commands, execute git status, git add, and git commit as separate individual commands from the project root. Never use git -C or chain commands with &&.
