@@ -95,17 +95,16 @@ export default function Home() {
             </p>
           </div>
           <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
-            {WHY_CRESTFIELD.map((feature) => (
-              <div
-                key={feature.title}
-                className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow hover:shadow-md"
-              >
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gold/10 text-gold">
-                  <feature.icon size={24} aria-hidden="true" />
+            {WHY_CRESTFIELD.map((feature, index) => (
+              <Reveal key={feature.title} delay={index * 100}>
+                <div className="group h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 ease-out hover:shadow-md">
+                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gold/10 text-gold transition-transform duration-200 ease-out group-hover:scale-110">
+                    <feature.icon size={24} aria-hidden="true" />
+                  </div>
+                  <h3 className="mb-2 font-poppins text-lg font-bold text-navy">{feature.title}</h3>
+                  <p className="text-sm leading-relaxed text-slate-600">{feature.description}</p>
                 </div>
-                <h3 className="mb-2 font-poppins text-lg font-bold text-navy">{feature.title}</h3>
-                <p className="text-sm leading-relaxed text-slate-600">{feature.description}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -130,9 +129,14 @@ export default function Home() {
               </p>
               <Link
                 href="/academics"
-                className="inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3 font-medium text-white transition-colors hover:bg-navy/90"
+                className="group inline-flex items-center gap-2 rounded-lg bg-navy px-6 py-3 font-medium text-white transition-all duration-200 ease-out hover:-translate-y-0.5 hover:bg-navy/90 hover:shadow-lg active:translate-y-0"
               >
-                View Academics <ArrowRight size={18} aria-hidden="true" />
+                View Academics{' '}
+                <ArrowRight
+                  size={18}
+                  aria-hidden="true"
+                  className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+                />
               </Link>
             </div>
           </div>
@@ -194,9 +198,14 @@ export default function Home() {
           </p>
           <Link
             href="/admissions"
-            className="inline-block rounded-lg bg-gold px-10 py-4 text-lg font-bold text-navy transition-colors hover:bg-gold/90"
+            className="group inline-flex items-center gap-2 rounded-lg bg-gold px-10 py-4 text-lg font-bold text-navy transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg hover:brightness-105 active:translate-y-0"
           >
             Start Application
+            <ArrowRight
+              size={20}
+              aria-hidden="true"
+              className="transition-transform duration-200 ease-out group-hover:translate-x-1"
+            />
           </Link>
         </div>
       </section>
