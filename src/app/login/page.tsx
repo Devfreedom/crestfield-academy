@@ -1,21 +1,35 @@
 'use client';
 
-import { Suspense } from 'react';
+import { Suspense, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { AlertCircle, LayoutDashboard } from 'lucide-react';
 import AuthCard from './AuthCard';
+import type { AuthTabId } from './AuthTabs';
 import { ROLE_HOME } from '@/lib/auth';
 import { useCurrentUser } from '@/lib/useAuth';
+
+const TAB_COPY: Record<AuthTabId, { heading: string; subtitle: string }> = {
+  login: {
+    heading: 'Portal Sign In',
+    subtitle: 'Sign in with your Crestfield Academy credentials',
+  },
+  register: {
+    heading: 'Request Portal Access',
+    subtitle: 'Submit your details for administrator approval',
+  },
+};
 
 /**
  * Standalone auth page: no public Navbar or Footer (SiteChrome skips /login),
  * logo block above the card, Login and Register tabs inside one card.
  */
 function LoginContent() {
+  const [activeTab, setActiveTab] = useState<AuthTabId>('login');
   const searchParams = useSearchParams();
   const accessError = searchParams.get('error') === 'access-denied';
   const showDemo = searchParams.get('demo') === '1';
   const { user } = useCurrentUser();
+  const { heading, subtitle } = TAB_COPY[activeTab];
 
   return (
     <div className="flex min-h-dvh flex-col items-center bg-slate-50 px-4 py-10 sm:py-14">
@@ -29,8 +43,8 @@ function LoginContent() {
         <p className="mt-3 font-poppins text-xl font-bold tracking-tight text-navy">
           Crestfield Academy
         </p>
-        <h1 className="mt-6 font-poppins text-3xl font-bold text-navy">Welcome Back</h1>
-        <p className="mt-2 text-sm text-slate-600">Sign in to access your portal.</p>
+        <h1 className="mt-6 font-poppins text-3xl font-bold text-navy">{heading}</h1>
+        <p className="mt-2 text-sm text-slate-600">{subtitle}</p>
       </div>
 
       {accessError && (
@@ -60,7 +74,7 @@ function LoginContent() {
         </div>
       )}
 
-      <AuthCard showDemo={showDemo} />
+      <AuthCard activeTab={activeTab} onTabChange={setActiveTab} showDemo={showDemo} />
     </div>
   );
 }

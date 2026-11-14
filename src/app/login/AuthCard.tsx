@@ -9,6 +9,8 @@ import RegisterForm from './RegisterForm';
 import DemoAccounts from './DemoAccounts';
 
 type AuthCardProps = {
+  activeTab: AuthTabId;
+  onTabChange: (tab: AuthTabId) => void;
   showDemo?: boolean;
 };
 
@@ -16,21 +18,20 @@ type AuthCardProps = {
  * The sign-in / register card. Both tabs live on this page and switch without
  * a reload; the demo-account cards below the card fill the login form when enabled.
  */
-export default function AuthCard({ showDemo = false }: AuthCardProps) {
-  const [activeTab, setActiveTab] = useState<AuthTabId>('login');
+export default function AuthCard({ activeTab, onTabChange, showDemo = false }: AuthCardProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const fillDemo = (demoEmail: string) => {
     setEmail(demoEmail);
     setPassword('password123');
-    setActiveTab('login');
+    onTabChange('login');
   };
 
   return (
     <div className="flex w-full max-w-md flex-col items-center">
       <div className="w-full overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <AuthTabs active={activeTab} onChange={setActiveTab} />
+        <AuthTabs active={activeTab} onChange={onTabChange} />
 
         <div
           role="tabpanel"
@@ -52,7 +53,7 @@ export default function AuthCard({ showDemo = false }: AuthCardProps) {
           aria-labelledby="register-tab"
           hidden={activeTab !== 'register'}
         >
-          <RegisterForm onBackToLogin={() => setActiveTab('login')} />
+          <RegisterForm onBackToLogin={() => onTabChange('login')} />
         </div>
       </div>
 
