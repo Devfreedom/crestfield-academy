@@ -85,7 +85,7 @@ export default function Navbar() {
                 key={link.href}
                 href={link.href}
                 aria-current={isCurrent(link.href) ? 'page' : undefined}
-                className={`relative text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gold after:content-[''] after:transition-all after:duration-200 after:ease-out hover:after:w-full hover:text-navy ${
+                className={`relative pb-1 text-sm font-medium transition-colors after:absolute after:bottom-0 after:left-0 after:h-0.5 after:w-0 after:bg-gold after:content-[''] after:transition-all after:duration-200 after:ease-out hover:after:w-full hover:text-navy ${
                   isCurrent(link.href) ? 'text-navy' : 'text-slate-600'
                 }`}
               >

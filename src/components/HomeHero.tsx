@@ -30,7 +30,7 @@ export default function HomeHero() {
         /* Slow 8s settle from scale 1.08 → 1. The origin matches the
            object-position crop focus so faces stay anchored; transform-only,
            so it never causes layout shift. Reduced motion disables it. */
-        className="origin-[50%_20%] object-cover object-[center_20%] animate-[hero-zoom_8s_ease-out_both]"
+        className="origin-[50%_20%] object-cover object-[center_20%] animate-[hero-zoom_8s_ease-out_forwards]"
       />
 
       {/* Readability overlay: strong on the left where the copy sits, lighter
@@ -57,20 +57,30 @@ export default function HomeHero() {
         <div className="max-w-3xl">
           <span
             className="mb-6 inline-block animate-[fade-up_0.6s_ease-out_both] rounded-full bg-gold px-4 py-1.5 text-sm font-bold text-navy"
+            style={{ animationDelay: '0ms' }}
           >
             Admissions Open for 2025/2026 Session
           </span>
 
-          <h1 className="mb-6 animate-[fade-up_0.6s_ease-out_both] font-poppins text-4xl font-bold leading-tight text-white [animation-delay:100ms] lg:text-6xl">
+          <h1
+            className="mb-6 animate-[fade-up_0.6s_ease-out_both] font-poppins text-4xl font-bold leading-tight text-white lg:text-6xl"
+            style={{ animationDelay: '100ms' }}
+          >
             Where Character Meets Excellence
           </h1>
 
-          <p className="mb-8 max-w-2xl animate-[fade-up_0.6s_ease-out_both] text-lg leading-relaxed text-slate-200 [animation-delay:200ms] lg:text-xl">
+          <p
+            className="mb-8 max-w-2xl animate-[fade-up_0.6s_ease-out_both] text-lg leading-relaxed text-slate-200 lg:text-xl"
+            style={{ animationDelay: '200ms' }}
+          >
             Crestfield Academy offers a world-class British-Nigerian curriculum from JSS1 to SS3,
             nurturing future leaders with integrity, discipline, and academic excellence in Abuja.
           </p>
 
-          <div className="flex flex-col gap-4 animate-[fade-up_0.6s_ease-out_both] sm:flex-row [animation-delay:300ms]">
+          <div
+            className="flex flex-col gap-4 animate-[fade-up_0.6s_ease-out_both] sm:flex-row"
+            style={{ animationDelay: '300ms' }}
+          >
             <Link
               href="/admissions"
               className="group flex items-center justify-center gap-2 rounded-lg bg-gold px-8 py-4 text-lg font-bold text-navy transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-lg hover:brightness-105 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white active:translate-y-0"

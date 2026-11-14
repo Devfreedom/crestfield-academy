@@ -442,10 +442,10 @@ nav.site-menu {
    Applied only to the hero <Image>, never to the text or scrims. */
 @keyframes hero-zoom {
   from {
-    scale: 1.08;
+    transform: scale(1.08);
   }
   to {
-    scale: 1;
+    transform: scale(1);
   }
 }
 

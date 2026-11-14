@@ -3,13 +3,14 @@ import { ArrowRight, Users, GraduationCap, ShieldCheck, Award, BookOpen } from '
 import HomeHero from '@/components/HomeHero';
 import AtAGlancePanel from '@/components/AtAGlancePanel';
 import Reveal from '@/components/Reveal';
+import AnimatedCounter from '@/components/AnimatedCounter';
 import { NEWS_ITEMS } from '@/lib/data';
 
 const STATS = [
-  { label: 'Students', value: '850+', icon: Users },
-  { label: 'Teachers', value: '62', icon: GraduationCap },
-  { label: 'WAEC Pass Rate', value: '98%', icon: Award },
-  { label: 'Years of Excellence', value: '14', icon: ShieldCheck },
+  { label: 'Students', target: 850, suffix: '+', icon: Users },
+  { label: 'Teachers', target: 62, suffix: '', icon: GraduationCap },
+  { label: 'WAEC Pass Rate', target: 98, suffix: '%', icon: Award },
+  { label: 'Years of Excellence', target: 14, suffix: '', icon: ShieldCheck },
 ];
 
 const WHY_CRESTFIELD = [
@@ -75,10 +76,12 @@ export default function Home() {
             {STATS.map((stat) => (
               <div
                 key={stat.label}
-                className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center"
+                className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md"
               >
                 <stat.icon className="mx-auto mb-3 h-8 w-8 text-gold" aria-hidden="true" />
-                <p className="font-poppins text-2xl font-bold text-navy">{stat.value}</p>
+                <p className="font-poppins text-2xl font-bold text-navy">
+                  <AnimatedCounter target={stat.target} suffix={stat.suffix} />
+                </p>
                 <p className="mt-1 text-sm text-slate-500">{stat.label}</p>
               </div>
             ))}
@@ -96,8 +99,8 @@ export default function Home() {
           </div>
           <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
             {WHY_CRESTFIELD.map((feature, index) => (
-              <Reveal key={feature.title} delay={index * 100}>
-                <div className="group h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 ease-out hover:shadow-md">
+              <Reveal key={feature.title} delayMs={index * 100}>
+                <div className="group h-full rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-200 ease-out hover:-translate-y-1 hover:shadow-md">
                   <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-gold/10 text-gold transition-transform duration-200 ease-out group-hover:scale-110">
                     <feature.icon size={24} aria-hidden="true" />
                   </div>

@@ -5,7 +5,7 @@ import { useEffect, useRef } from 'react';
 type RevealProps = {
   children: React.ReactNode;
   /** Extra transition delay in ms, for staggering sibling cards. */
-  delay?: number;
+  delayMs?: number;
   className?: string;
 };
 
@@ -16,24 +16,16 @@ type RevealProps = {
  * `prefers-reduced-motion: no-preference`, so no-JS visitors and reduced-motion
  * users always see the content statically. The observer is one-shot and
  * disconnects after the first reveal.
- *
- * The revealed state is toggled on the DOM node rather than in React state:
- * it avoids a hydration mismatch (the class is only known in the browser) and
- * keeps the component free of re-renders.
  */
-export default function Reveal({ children, delay = 0, className = '' }: RevealProps) {
+export default function Reveal({ children, delayMs = 0, className = '' }: RevealProps) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
 
-    // Static immediately when motion is reduced or the API is unavailable —
-    // never leave content hidden.
-    if (
-      typeof IntersectionObserver === 'undefined' ||
-      !window.matchMedia('(prefers-reduced-motion: no-preference)').matches
-    ) {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || typeof IntersectionObserver === 'undefined') {
       element.classList.add('is-revealed');
       return;
     }
@@ -57,7 +49,7 @@ export default function Reveal({ children, delay = 0, className = '' }: RevealPr
     <div
       ref={ref}
       className={`reveal ${className}`}
-      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
+      style={delayMs ? { transitionDelay: `${delayMs}ms` } : undefined}
     >
       {children}
     </div>
